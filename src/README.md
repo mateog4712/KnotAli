@@ -1,12 +1,8 @@
-# HFold Iterative
+# KnotAli
 
 #### Description:
-Software implementation of Iterative HFold.      
-Iterative HFold is an algorithm for predicting the pseudoknotted secondary structures of RNA using relaxed Hierarchical Folding. 
-
-Paper: https://www.researchgate.net/publication/262810273_A_fast_and_robust_iterative_algorithm_for_prediction_of_RNA_pseudoknotted_secondary_structures
-
-On the dataset tested in this paper, Iterative HFold generally has better accuracy that its predecessor, [HFold](https://github.com/HosnaJabbari/HFold).
+Software implementation of KnotAli.      
+KnotAli is an algorithm for predicting the pseudoknotted secondary structures of RNA using relaxed Hierarchical Folding.
 
 #### Supported OS: 
 Linux, macOS
@@ -62,46 +58,28 @@ After installing you can move the executables wherever you wish, but you should 
 
 #### How to use:
     Arguments:
-        HFold_iterative:
-            --s <sequence>
-            --r <structure>
-            --i </path/to/file>
-            --o </path/to/file>
+        KnotALi:
+            --f <FASTA file>
+            --c <Clustal file>
+            --o <output type>
 
         Remarks:
-            make sure the <arguments> are enclosed in "", for example --r "..().." instead of --r ..()..
-            input file for --i must be .txt
-            if --i is provided with just a file name without a path, it is assuming the file is in the diretory where the executable is called
+            input file must be either FASTA or clustal
             if --o is provided with just a file name without a path, the output file will be generated in the diretory where the executable is called
-            if --o is provided with just a file name without a path, and if --i is provided, then the output file will be generated in the directory where the input file is located
     
-    Sequence requirements:
-        containing only characters GCAUT
-
-    Structure requirements:
-        -pseudoknot free
-        -containing only characters ._(){}[]
-        Remarks:
-            Restricted structure symbols:
-                () restricted base pair
-                _ no restriction
+    Sequences requirements:
+        containing only characters GCAU
 
 
-    Input file requirements:
-            Line1: Sequence
-            Line2: Structure
-        sample:
-            GCAACGAUGACAUACAUCGCUAGUCGACGC
-            (____________________________)
 
 #### Example:
-    assume you are in the directory where the HFold_iterative executable is loacted
-    ./HFold_iterative --i "/home/username/Desktop/myinputfile.txt"
-    ./HFold_iterative --i "/home/username/Desktop/myinputfile.txt" -o "outputfile.txt"
-    ./HFold_iterative --i "/home/username/Desktop/myinputfile.txt" -o "/home/username/Desktop/some_folder/outputfile.txt"
-    ./HFold_iterative --s "GCAACGAUGACAUACAUCGCUAGUCGACGC" -r "(____________________________)"
-    ./HFold_iterative --s "GCAACGAUGACAUACAUCGCUAGUCGACGC" -r "(____________________________)" -o "outputfile.txt"
-    ./HFold_iterative --s "GCAACGAUGACAUACAUCGCUAGUCGACGC" -r "(____________________________)" -o "/home/username/Desktop/some_folder/outputfile.txt"
+    assume you are in the directory where the KnotAli executable is located
+    ./allFold --f "/home/username/Desktop/myinputfile.fa"
+    ./allFold --f "/home/username/Desktop/myinputfile.fa" -o "Clustal"
+    ./allFold --f "/home/username/Desktop/myinputfile.fa" -o "FASTA"
+    ./allFold --c "/home/username/Desktop/myinputfile.fa"
+    ./allFold --c "/home/username/Desktop/myinputfile.fa" -o "Clustal"
+    ./allFold --c "/home/username/Desktop/myinputfile.fa" -o "FASTA"
 
     
 #### Exit code:
