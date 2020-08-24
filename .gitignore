@@ -2,3 +2,4 @@ vgcore.*
 *.tar.gz
 *.pdf
 **/build
+**/allFold
