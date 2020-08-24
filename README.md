@@ -55,12 +55,11 @@ After installing you can move the executables wherever you wish, but you should 
 
 #### Example:
     assume you are in the directory where the KnotAli executable is located
-    ./allFold --f "/home/username/Desktop/myinputfile.fa"
-    ./allFold --f "/home/username/Desktop/myinputfile.fa" -o "Clustal"
-    ./allFold --f "/home/username/Desktop/myinputfile.fa" -o "FASTA"
-    ./allFold --c "/home/username/Desktop/myinputfile.fa"
-    ./allFold --c "/home/username/Desktop/myinputfile.fa" -o "Clustal"
-    ./allFold --c "/home/username/Desktop/myinputfile.fa" -o "FASTA"
+    ./allFold /home/username/Desktop/myinputfile.fa
+    ./allFold -o "CLUSTAL" /home/username/Desktop/myinputfile.fa
+    ./allFold -i "CLUSTAL" /home/username/Desktop/myinputfile.fa"
+    ./allFold -i "CLUSTAL" -o "CLUSTAL" /home/username/Desktop/myinputfile.fa
+    
 
     
 #### Exit code:
