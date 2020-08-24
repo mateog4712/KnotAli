@@ -23,19 +23,14 @@ int main(int argc, char *argv[]) {
     
     //int c;
     vector <string> list;
-    string family;
-    string sequence;
+    string type;
     string fastaFile;
     string clustalFile;
-    string file;
-    bool make = false;
-    bool gap = false;
-    bool perl = false;
     int c;
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "f:c:")) != -1)
+    while ((c = getopt (argc, argv, "f:c:o:")) != -1)
         switch (c)
         {
             case 'f':
@@ -43,7 +38,10 @@ int main(int argc, char *argv[]) {
                 break;
             case 'c':
                 clustalFile = optarg;
-                break; 
+                break;
+            case 'o':
+                type = optarg;
+                break;
 
             default:
                 abort ();
@@ -91,7 +89,7 @@ int main(int argc, char *argv[]) {
     
     string structure = MIVector(seqs);
     
-    ofstream out("../results.fa", ofstream::trunc);
+    ofstream out("results.fa", ofstream::trunc);
     for(int i=0; i<seqs.size(); ++i){
         
         string consensusCh = returnUngapped(seqs[i],structure);
@@ -116,7 +114,82 @@ int main(int argc, char *argv[]) {
 
     
     }else if(clustalFile.length()!= 0){
+        vector <string> seqs;
+        vector <string> seqs2;
+        vector <string> names;
+        
+        ifstream in(clustalFile.c_str());
+        string str;
+        int i = 0;
 
+        bool first = true;
+        getline(in, str);
+        if(str.substr(0,7) != "CLUSTAL"){
+            cout << "Not a valid CLUSTAL file!" << endl;
+            exit (EXIT_FAILURE);
+        }
+        getline(in, str);
+        while (getline(in, str)) {
+            if(names.size() == 0 && str == "") continue;
+
+            if(str == "" || str[0] == ' '){
+                first = false;
+                i = 0;
+                continue;
+            }
+
+            if(first){
+                istringstream ss(str);
+                ss >> str;
+                names.push_back(str);
+                ss >> str;
+                seqs.push_back(str);
+                for(int j=str.length()-1;j>=0;--j){
+                    if(str[j] == '-') str.erase(j,1);
+                }
+                seqs2.push_back(str);
+
+            }
+            else{
+                istringstream ss(str);
+                ss >> str;
+                ss >> str;
+                seqs[i] = seqs[i] + str;
+                for(int j=str.length()-1;j>=0;--j){
+                    if(str[j] == '-') str.erase(j,1);
+                }
+                seqs2[i] = seqs2[i] + str;
+                ++i;
+            }
+        }
+    in.close();
+    
+    string structure = MIVector(seqs);
+    
+    ofstream out("results.fa", ofstream::trunc);
+    for(int i=0; i<seqs.size(); ++i){
+        
+        string consensusCh = returnUngapped(seqs[i],structure);
+        
+        // run it
+        string final = iterativeFold(seqs2[i],consensusCh);
+        
+        // makes sure name is in correct format
+        if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
+        if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
+        istringstream ss(names[i]);
+        ss >> names[i];
+        
+
+        /**   Outputting to file     **/
+        out << ">" + names[i] << endl;
+        out << seqs2[i] << endl;
+        out << final << endl;
+        out << endl;
+    }
+    out.close();
+    
+    
     }
     return 0;
 }
