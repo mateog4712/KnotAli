@@ -18,30 +18,10 @@ cmake --version
 ```
 If it does not print a cmake version greater than or equal to 3.1, you will have to install CMake depending on your operating system.
 
-#### Mac:    
-Easiest way is to install homebrew and use that to install CMake.    
-To do so, run the following from a terminal to install homebrew:      
-```  
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"   
-```    
-When that finishes, run the following from a terminal to install CMake.     
-```   
-brew install cmake   
-``` 
-#### Linux:    
-Run from a terminal     
-```
-wget http://www.cmake.org/files/v3.8/cmake-3.8.2.tar.gz
-tar xzf cmake-3.8.2.tar.gz
-cd cmake-3.8.2
-./configure
-make
-make install
-```
 [Linux instructions source](https://geeksww.com/tutorials/operating_systems/linux/installation/downloading_compiling_and_installing_cmake_on_linux.php)
 
 #### Steps for installation   
-1. [Download the repository](https://github.com/HosnaJabbari/HFold_iterative.git) and extract the files onto your system.
+1. [Download the repository](https://github.com/mateog4712/KnotAli.git) and extract the files onto your system.
 2. From a command line in the root directory (where this README.md is) run
 ```
 cmake -H. -Bbuild
@@ -65,7 +45,7 @@ After installing you can move the executables wherever you wish, but you should 
 
         Remarks:
             input file must be either FASTA or clustal
-            if --o is provided with just a file name without a path, the output file will be generated in the diretory where the executable is called
+            if --o is provided with just FASTA, the output will remain the same as normal
     
     Sequences requirements:
         containing only characters GCAU
