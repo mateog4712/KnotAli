@@ -49,6 +49,7 @@ After installing you can move the executables wherever you wish, but you should 
     
     Sequences requirements:
         containing only characters GCAU
+        are the same size (gapped or non-gapped)
 
 
 
