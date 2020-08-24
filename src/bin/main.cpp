@@ -23,36 +23,37 @@ int main(int argc, char *argv[]) {
     
     //int c;
     vector <string> list;
-    string type;
-    string fastaFile;
-    string clustalFile;
+    string typeI = "FASTA";
+    string typeO;
+    string inputFile;
     int c;
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "f:c:o:")) != -1)
+    while ((c = getopt (argc, argv, "i:o:")) != -1)
         switch (c)
         {
-            case 'f':
-                fastaFile = optarg;
-                break;
-            case 'c':
-                clustalFile = optarg;
+            case 'i':
+                typeI = optarg;
                 break;
             case 'o':
-                type = optarg;
+                typeO = optarg;
                 break;
 
             default:
                 abort ();
         }
+
+    inputFile = argv[argc-1];
+    // Define the data structures for the sequences
+    vector <string> seqs;
+    vector <string> seqs2;
+    vector <string> names;
+
     // Get the arguments
-    if((fastaFile.length()!=0)){
-        vector <string> seqs;
-        vector <string> seqs2;
-        vector <string> names;
-        
-        ifstream in(fastaFile.c_str());
+    if(typeI == "FASTA"){
+
+        ifstream in(inputFile.c_str());
         string str;
         int i = -1;
         bool newSeq = false;
@@ -85,40 +86,11 @@ int main(int argc, char *argv[]) {
                 seqs[i] = temp2;
             }
         }
-    in.close();
-    
-    string structure = MIVector(seqs);
-    
-    ofstream out("results.fa", ofstream::trunc);
-    for(int i=0; i<seqs.size(); ++i){
-        
-        string consensusCh = returnUngapped(seqs[i],structure);
-        
-        // run it
-        string final = iterativeFold(seqs2[i],consensusCh);
-        
-        // makes sure name is in correct format
-        if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
-        if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
-        istringstream ss(names[i]);
-        ss >> names[i];
-        
+        in.close();
 
-        /**   Outputting to file     **/
-        out << ">" + names[i] << endl;
-        out << seqs2[i] << endl;
-        out << final << endl;
-        out << endl;
-    }
-    out.close();
-
-    
-    }else if(clustalFile.length()!= 0){
-        vector <string> seqs;
-        vector <string> seqs2;
-        vector <string> names;
+    }else if(typeI == "CLUSTAL"){
         
-        ifstream in(clustalFile.c_str());
+        ifstream in(inputFile.c_str());
         string str;
         int i = 0;
 
@@ -162,24 +134,28 @@ int main(int argc, char *argv[]) {
                 ++i;
             }
         }
-    in.close();
-    
+        in.close();
+    }
+    else{
+        cout << "Please give valid input type" << endl;
+        exit (EXIT_FAILURE);
+    }
     string structure = MIVector(seqs);
     
     ofstream out("results.fa", ofstream::trunc);
     for(int i=0; i<seqs.size(); ++i){
-        
+    
         string consensusCh = returnUngapped(seqs[i],structure);
-        
+    
         // run it
         string final = iterativeFold(seqs2[i],consensusCh);
-        
+    
         // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
         if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
         istringstream ss(names[i]);
         ss >> names[i];
-        
+    
 
         /**   Outputting to file     **/
         out << ">" + names[i] << endl;
@@ -189,7 +165,5 @@ int main(int argc, char *argv[]) {
     }
     out.close();
     
-    
-    }
     return 0;
 }
