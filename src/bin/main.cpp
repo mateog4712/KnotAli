@@ -35,23 +35,9 @@ int main(int argc, char *argv[]) {
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "s:f:c:mg:p:")) != -1)
+    while ((c = getopt (argc, argv, "f:c:")) != -1)
         switch (c)
         {
-            case 'g':
-                gap = true;
-                file = optarg;
-                break;
-            case 'p':
-                perl = true;
-                family = optarg;
-                break;
-            case 'm':
-               make = true;
-               break;
-            case 's':
-                sequence = optarg;
-                break;
             case 'f':
                 fastaFile = optarg;
                 break;
@@ -62,25 +48,8 @@ int main(int argc, char *argv[]) {
             default:
                 abort ();
         }
-   
-
-    //convertPS("../hxmatch-1.2.1/test.ps");
-   
-    if(make == true){
-        ct2dot2(family, list);
-    }
-    else if(perl == true){
-        runPerl(family);
-    }
-    else if(gap == true){
-        /** Create the gapped version of the sequences **/
-        ostringstream oss;
-        oss << "../muscle3.8.31_i86linux64 -in " << file << " -out out1.afa"; 
-        string command = oss.str();
-        system(command.c_str());
-    }
     // Get the arguments
-    else if((fastaFile.length()!=0)){
+    if((fastaFile.length()!=0)){
         vector <string> seqs;
         vector <string> seqs2;
         vector <string> names;
@@ -119,128 +88,35 @@ int main(int argc, char *argv[]) {
             }
         }
     in.close();
-    // Get the family for output info
-    cout << "Put Family: ";
-    cin >> family;
-
     
-
-    // Define base variables
-    int n = seqs[0].length();
-    int n_seq = seqs.size();
+    string structure = MIVector(seqs);
     
-    // string structure = MIVector(seqs);
-    // cout << structure << endl;
-    
+    ofstream out("../results.fa", ofstream::trunc);
     for(int i=0; i<seqs.size(); ++i){
-        ostringstream oss;
+        
+        string consensusCh = returnUngapped(seqs[i],structure);
+        
+        // run it
+        string final = iterativeFold(seqs2[i],consensusCh);
+        
+        // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
         if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
         istringstream ss(names[i]);
-        
         ss >> names[i];
-
-        if((names[i].substr(0,family.length())) == family){
-            
-            }
-        else{
-            names[i] = (family + "_" + names[i]);
-            }
         
-        convertPS(family,names[i]);
 
-        // oss << "../EMBOSS-6.6.0/emboss/seqret -sequence " << "../output/sequences/" << family << "/" << names[i] << ".txt " <<  "-outseq "  << "../output/clustal/" << family << "/" << names[i] << ".txt " <<  "-osformat2 clustal";
-        // string command = oss.str();
-        // system(command.c_str());
-
-        // string file = "../output/clustal/" + family + "/" + names[i] + ".txt";
-        // ifstream in(file);
-        // //string line;
-        // vector<string> lines;
-        // int x = 0;
-        // string extra = "                   *";
-
-        // while (getline(in, str)) {
-        //     // cout << "line: " << str << endl;
-        //     if(x%3 == 1 && x!=1){
-        //         lines.push_back(extra);
-        //     }else{
-        //         lines.push_back(str);
-        //     }
-        //     ++x;
-        // }
-        // in.close();
-        // // cout << lines[0]<< endl;
-
-        // ofstream out(file.c_str(),ofstream::trunc);
-        // for(int j = 0; j<lines.size();++j){
-        //     out << lines[j] << endl;
-        // }
-        // out.close();
-        // string fileO = "../output/hxmatch/" + family + "/" + names[i] + ".txt";
-        // string fileI = "../output/clustal/" + family + "/" + names[i] + ".txt";
-        // oss << "../hxmatch-1.2.1/hxmatch < " << fileI << " > " << fileO;
-        // string command = oss.str();
-        // system(command.c_str());
-
-
+        /**   Outputting to file     **/
+        out << ">" + names[i] << endl;
+        out << seqs2[i] << endl;
+        out << final << endl;
+        out << endl;
     }
-
-    
-    
-    // for(int i=0; i<seqs.size(); ++i){
-        
-    //     string consensusCh = returnUngapped(seqs[i],structure);
-        
-    //     // run it
-    //     cout << i << endl;
-    //     string final = consensusCh;//iterativeFold(seqs2[i],consensusCh);
-    //     cout << final << endl;
-        
-    //     /**   Outputting to file     **/
-    //     string File;
-        
-    //     if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
-    //     if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
-    //     istringstream ss(names[i]);
-        
-    //     ss >> names[i];
-        
-    //     if((names[i].substr(0,family.length())) == family){
-    //         File = "../output/hfold/" + family + "/" + names[i] + ".txt";
-            
-    //         }
-    //     else{
-    //         File = "../output/hfold/" + family + "/" + family + "_" + names[i] + ".txt";
-    //         }
-    //     ofstream out(File.c_str(), ofstream::trunc);
-    //     out << ">" + names[i] << endl;
-    //     out << seqs2[i] << endl;
-    //     out << final << endl;
-    //     out.close();
-    //     cout << endl;
-    // }
+    out.close();
 
     
     }else if(clustalFile.length()!= 0){
 
     }
-    else if(sequence != ""){
-        double energy = 0;
-        int x = sequence.length();
-        char output[x+1];
-        char consens[x+1];
-        strcpy(consens, sequence.c_str());
-        // call simfold
-    
-        call_simfold2(Simfold,consens,output,&energy);
-        // replace the . with _
-        char* output2 = replaceChar(output,'.','_');
-        string seqStr(output2);
-        string final = iterativeFold(sequence,seqStr);
-        cout << final << endl;
-    }
-    
-    //string command = "export DATAPATH=~/RNAstructure/data_tables/";
     return 0;
 }
