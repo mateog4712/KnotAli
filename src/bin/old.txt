@@ -1,0 +1,21 @@
+// Set energy parameter
+    // double energy = 0;
+    
+    // // // Get consensus
+    // string consensus = get_consensus(seqs,0);
+    // cout<<consensus << endl;
+
+    
+    // //change consensus to cstr  
+    // int x = consensus.length();
+    // char output[x+1];
+    // char consens[x+1];
+    // strcpy(consens, consensus.c_str());
+    // // call simfold
+    
+    // call_simfold3(Simfold,consens,output,&energy, scores, n);
+    // // replace the . with _
+    // char* output2 = replaceChar(output,'.','_');
+    // // change back to string
+    // string consensusStr(output2);
+    // cout << consensusStr << endl;

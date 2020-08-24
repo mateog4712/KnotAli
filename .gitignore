@@ -1,0 +1,4 @@
+vgcore.*
+*.tar.gz
+*.pdf
+**/build
