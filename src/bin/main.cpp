@@ -37,6 +37,7 @@ int main(int argc, char *argv[]) {
                 break;
             case 'h':
                 cout << "Use -i for the input format with either CLUSTAL or FASTA" << endl;
+                cout << "The format for this is ./src/allFold -i <Format> <File location>" << endl;
                 break;
 
             default:
