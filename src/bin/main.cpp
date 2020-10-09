@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <cstring>
 #include <fstream>
-#include "constants.h"
+#include "../simfold/include/constants.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -24,20 +24,19 @@ int main(int argc, char *argv[]) {
     //int c;
     vector <string> list;
     string typeI = "FASTA";
-    string typeO;
     string inputFile;
     int c;
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "i:o:")) != -1)
+    while ((c = getopt (argc, argv, "i:h")) != -1)
         switch (c)
         {
             case 'i':
                 typeI = optarg;
                 break;
-            case 'o':
-                typeO = optarg;
+            case 'h':
+                cout << "Use -i for the input format with either CLUSTAL or FASTA" << endl;
                 break;
 
             default:
@@ -140,10 +139,15 @@ int main(int argc, char *argv[]) {
         cout << "Please give valid input type" << endl;
         exit (EXIT_FAILURE);
     }
+    // number of sequences
+    int n_seq = seqs.size();
+
+    // Uses covariation/ Mutual Information to find probable structurally important base pairs
     string structure = MIVector(seqs);
     
-    ofstream out("results.fa", ofstream::trunc);
-    for(int i=0; i<seqs.size(); ++i){
+    // The output file
+    ofstream out("results.afa", ofstream::trunc);
+    for(int i=0; i<n_seq; ++i){
     
         string consensusCh = returnUngapped(seqs[i],structure);
     
@@ -155,7 +159,6 @@ int main(int argc, char *argv[]) {
         if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
         istringstream ss(names[i]);
         ss >> names[i];
-    
 
         /**   Outputting to file     **/
         out << ">" + names[i] << endl;

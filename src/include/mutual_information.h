@@ -4,9 +4,16 @@
 #include <string>
 #include "CalculateProbability.h"
 #include <sys/types.h>
+#include <tuple>
 
-std::string MIVector(std::vector<std::string> seqs);
-std::string MIVectorStack(std::vector<std::string> seqs);
+// structure holding the score and location of pair
+struct Hotspot { 
+    std::tuple<int,int> pair;
+    double score;
+};
+
+std::string MIVector(std::vector<std::string> seqs, bool stack = false);
+bool check_Pseudoknot(std::vector<std::tuple<int,int> > used, Hotspot hotspot);
 
 /*******************************************************************************
 ** calculateMutualInformation returns the log base LOG_BASE mutual information between
