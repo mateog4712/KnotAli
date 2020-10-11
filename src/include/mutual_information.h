@@ -1,9 +1,8 @@
 #ifndef MUTUAL_INFORMATION
 #define MUTUAL_INFORMATION
+#include "CalculateProbability.h"
 #include <vector>
 #include <string>
-#include "CalculateProbability.h"
-#include <sys/types.h>
 #include <tuple>
 
 // structure holding the score and location of pair

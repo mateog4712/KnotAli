@@ -3,3 +3,4 @@ vgcore.*
 *.pdf
 **/build
 **/allFold
+*.afa
