@@ -21,9 +21,9 @@ void usage (const char *prog)
     printf ("Options:\n");
     printf ("  -i <Alignment Type> \n");
     printf ("\t The type of alignment: FASTA or CLUSTAL (default is FASTA) \n\n");
-    printf ("  -s\n\tTurn stacking on which takes into account surrounding base pairs while running, by default it is false\n");
     printf ("  -p <number of threads>\n");
     printf ("\t Runs the program in parallel using the specified number of threads\n\n");
+    printf ("  -s\n\tTurn stacking on which takes into account surrounding base pairs while running, by default it is false\n\n");
     printf ("  -v\n\tGives a verbose output\n\n");
     printf ("  -h\n\tPrint this help message\n\n");
     printf ("Examples:\n");
