@@ -1,10 +1,8 @@
-#include <string>
+#include "../include/mutual_information.h"
+#include "../include/CalculateProbability.h"
 #include <vector>
 #include <math.h>
 #include <iostream>
-#include <numeric>
-#include "../include/mutual_information.h"
-#include "../include/CalculateProbability.h"
 #include <map>
 #include <tuple>
 #include <algorithm>

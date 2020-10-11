@@ -1,19 +1,13 @@
 #include "../include/allFold.h"
 #include "../include/mutual_information.h"
-#include "../include/covariation.h"
 #include "../include/utils.h"
-#include <string>
 #include <vector>
 #include <iostream>
 #include <sstream>
-#include <stdio.h>
-#include <cstring>
 #include <fstream>
-#include "../simfold/include/constants.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <math.h>
+
 
 
 using namespace std;

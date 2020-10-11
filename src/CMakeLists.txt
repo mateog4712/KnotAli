@@ -19,7 +19,6 @@ set(allfold_SOURCE
     h_common.h h_common.cpp 
     hfold_validation.h hfold_validation.cpp 
     hfold_iterative.h 
-    include/covariation.h bin/covariation.cpp
     include/mutual_information.h bin/mutual_information.cpp
     include/CalculateProbability.h bin/CalculateProbability.cpp
     include/ArrayOperations.h bin/ArrayOperations.cpp

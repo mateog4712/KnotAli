@@ -1,39 +1,13 @@
-#include <algorithm>
-#include <stdlib.h>
-#include <time.h>
-#include <stack>
-#include <ctime>
-#include <signal.h>
-#include <pthread.h>
+#include "../HFold_iterative.cpp"
+#include "../include/allFold.h"
+#include "../include/utils.h"
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include <cstring>
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include <iterator>
-#include <cstdlib>
 #include <dirent.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-//#include "simfold.h"
-#include "externs.h"
-#include "../h_globals.h"
-#include "constants.h"
-#include "params.h"
-//#include "hfold.h"
-#include "../hfold_iterative.h"
-#include "../HFold_iterative.cpp"
-#include <assert.h>
-#include "../include/allFold.h"
-#include "../include/utils.h"
-//#include "include/mutual_information.h"
 #include <tuple>
-
-
 
 using namespace std;
 

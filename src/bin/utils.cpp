@@ -1,21 +1,10 @@
 #include "../include/utils.h"
-#include <algorithm>
-#include <stdlib.h>
 #include <iostream>
 #include <string>
-#include <stdio.h>
 #include <cstring>
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include <iterator>
-#include <cstdlib>
-#include <dirent.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <cmath>
 
 using namespace std;
 
