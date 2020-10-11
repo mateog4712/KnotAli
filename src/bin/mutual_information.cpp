@@ -47,7 +47,6 @@ string MIVector(vector<string> seqs, bool stack){
   double sum = 0;
   int count = 0;
   double maxim = 0;
-  double APC[n][n] = {0};
   
 
 
@@ -80,11 +79,11 @@ string MIVector(vector<string> seqs, bool stack){
     for(int j = 4;(i+j)<n;++j){
       double column_mean_ij = column_sum[i+j]/n;
       if(scores[i][i+j] == 0) continue;
-      APC[i][i+j] = scores[i][i+j]-(column_mean_i*column_mean_ij)/mean;
-      if(APC[i][i+j] > .80){
+      double score = scores[i][i+j]-(column_mean_i*column_mean_ij)/mean;
+      if(score > .80){
         Hotspot hotspot;
         hotspot.pair = make_tuple(i,i+j);
-        hotspot.score = APC[i][i+j];
+        hotspot.score = score;
         hotspots.push_back(hotspot);
       }
     }

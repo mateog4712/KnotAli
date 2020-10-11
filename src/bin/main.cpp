@@ -8,42 +8,73 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
-
 using namespace std;
 
-char Simfold[10] = "./simfold";
+#define MAXSLEN 5000
+void usage (const char *prog)
+// PRE:  None
+// POST: Prints the usage message and exits
+{
+    printf ("\nUsage: %s -f <location of alignment> [options]\n\n", prog);
+    printf ("  -f <location of alignment>\n");
+    printf ("\t The alignment to fold, max length is %d\n\n", MAXSLEN);
+    printf ("Options:\n");
+    printf ("  -i <Alignment Type> \n");
+    printf ("\t The type of alignment: FASTA or CLUSTAL (default is FASTA) \n\n");
+    printf ("  -s\n\tTurn stacking on which takes into account surrounding base pairs while running, by default it is false\n");
+    printf ("  -p <number of threads>\n");
+    printf ("\t Runs the program in parallel using the specified number of threads\n\n");
+    printf ("  -v\n\tGives a verbose output\n\n");
+    printf ("  -h\n\tPrint this help message\n\n");
+    printf ("Examples:\n");
+    printf ("\t%s -f sample.afa \n", prog);
+    printf ("\t%s -f sample.aln -i CLUSTAL \n", prog);
+    printf ("\t%s -f sample.aln -i CLUSTAL -s\n", prog);
+    exit (0);
+}
 int main(int argc, char *argv[]) {
     
     //int c;
     vector <string> list;
     string typeI = "FASTA";
     string inputFile;
+    int threads = 1;
+    bool stack = false;
+    bool verbose = false;
     int c;
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "i:h")) != -1)
+    while ((c = getopt (argc, argv, "f:i:p:svh")) != -1)
         switch (c)
         {
+            case 'f':
+                inputFile = optarg;
+                break;
             case 'i':
                 typeI = optarg;
                 break;
+            case 'p':
+                threads = atoi(optarg);
+                break;
+            case 's':
+                stack = true;
+                break;
+            case 'v':
+                verbose = true;
+                break;    
             case 'h':
-                cout << "Use -i for the input format with either CLUSTAL or FASTA" << endl;
-                cout << "The format for this is ./src/allFold -i <Format> <File location>" << endl;
+                usage(argv[0]);
                 break;
 
             default:
                 abort ();
         }
 
-    inputFile = argv[argc-1];
     // Define the data structures for the sequences
     vector <string> seqs;
     vector <string> seqs2;
     vector <string> names;
-
     // Get the arguments
     if(typeI == "FASTA"){
 
@@ -138,7 +169,11 @@ int main(int argc, char *argv[]) {
     int n_seq = seqs.size();
 
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
-    string structure = MIVector(seqs);
+    string structure = MIVector(seqs,stack);
+    if(verbose){
+      printf ("\t The number of sequences is %d\n", n_seq);
+      printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  
+    }
     
     // The output file
     ofstream out("results.afa", ofstream::trunc);
