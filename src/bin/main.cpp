@@ -27,7 +27,7 @@ void usage (const char *prog)
     printf ("  -v\n\tGives a verbose output\n\n");
     printf ("  -h\n\tPrint this help message\n\n");
     printf ("Examples:\n");
-    printf ("\t%s -f sample.afa \n", prog);
+    printf ("\t%s -f sample.afa -i FASTA \n", prog);
     printf ("\t%s -f sample.aln -i CLUSTAL \n", prog);
     printf ("\t%s -f sample.aln -i CLUSTAL -s\n", prog);
     exit (0);

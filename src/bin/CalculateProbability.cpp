@@ -7,14 +7,6 @@
 using namespace std;
 
 JointProbabilityState calculateJointProbability(uint *firstVector, uint *secondVector, int vectorLength) {
-  
-  /**   Mapping of bases; Change here if changed in mutual_information.cpp    **/
-  // std::map<char,uint> base;
-  // base['-']=0;
-  // base['A']=1;
-  // base['C']=2;
-  // base['G']=3;
-  // base['U']=4;
 
   int *firstStateCounts;
   int *secondStateCounts;
@@ -66,6 +58,10 @@ JointProbabilityState calculateJointProbability(uint *firstVector, uint *secondV
   state.numFirstStates = firstNumStates;
   state.secondProbabilityVector = secondStateProbs;
   state.numSecondStates = secondNumStates;
+  
+  free(firstStateCounts);
+  free(secondStateCounts);
+  free(jointStateCounts);
 
   return state;
 }
