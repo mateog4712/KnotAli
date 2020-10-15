@@ -41,8 +41,8 @@ string MIVector(vector<string> seqs, bool stack){
   }
 
 
-  double column_max[n];
-  double column_sum[n];
+  double column_max[n] = {0};
+  double column_sum[n] = {0};
   double scores[n][n] = {0};
   double sum = 0;
   int count = 0;
