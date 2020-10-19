@@ -52,6 +52,22 @@ for(int i=0;i<length;i++){
 for(int i= input_sequence.length()-1; i>=0;--i){
     if(input_sequence[i] == '-') consensus_structure.erase(i,1);
 }
+s.clear();
+for(int i=0; i<consensus_structure.length();++i){
+    if(consensus_structure[i] == '(') {
+        s.push_back(make_tuple(consensus_structure[i],i));
+        continue;
+    }   
+    if (consensus_structure[i] == ')'){
+        tuple<char,int> x = s[s.size()-1];
+        s.erase(s.end());
+        if(i-get<1>(x) < 4){
+            consensus_structure[i] = '_';
+            consensus_structure[get<1>(x)] = '_';
+            continue;  
+        }
+    }
+}
 return consensus_structure;
 }
 bool canMatch(char x, char y){
