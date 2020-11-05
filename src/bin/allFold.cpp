@@ -20,33 +20,37 @@ int sublength=0;
 int j = length;
 vector<tuple<char,int> > s;
 for(int i=0;i<length;i++){
-    if(consensus_structure[i] == '(') {
+    if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
         s.push_back(make_tuple(consensus_structure[i],i));
         continue;
     }
-    if (consensus_structure[i] == ')'){
+    if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
         tuple<char,int> x = s[s.size()-1];
         s.erase(s.end());
-        if(get<0>(x) == '('){
-            if(canMatch(input_sequence[i],input_sequence[get<1>(x)])){
-                
+        if((get<0>(x) == '(' && consensus_structure[i] == '>') || (get<0>(x) == '<' && consensus_structure[i] == ')')){
+            cout << "Error in reported structure. Pairings do not line up" << endl;
+            exit(0);
+        }
+        
+        if(canMatch(input_sequence[i],input_sequence[get<1>(x)])){
+            
+            continue;
+        }
+        else{
+            if(input_sequence[i] == '-'){
+                consensus_structure[get<1>(x)] = '_';
                 continue;
+            }else if(input_sequence[get<1>(x)] == '-'){
+                consensus_structure[i] = '_';
+                continue;   
             }
             else{
-                if(input_sequence[i] == '-'){
-                    consensus_structure[get<1>(x)] = '_';
-                    continue;
-                }else if(input_sequence[get<1>(x)] == '-'){
-                    consensus_structure[i] = '_';
-                    continue;   
-                }
-                else{
-                    consensus_structure[i] = '_';
-                    consensus_structure[get<1>(x)] = '_';
-                    continue;
-                }
+                consensus_structure[i] = '_';
+                consensus_structure[get<1>(x)] = '_';
+                continue;
             }
         }
+        
     }
 }
 for(int i= input_sequence.length()-1; i>=0;--i){
@@ -54,13 +58,17 @@ for(int i= input_sequence.length()-1; i>=0;--i){
 }
 s.clear();
 for(int i=0; i<consensus_structure.length();++i){
-    if(consensus_structure[i] == '(') {
+    if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
         s.push_back(make_tuple(consensus_structure[i],i));
         continue;
     }   
-    if (consensus_structure[i] == ')'){
+    if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
         tuple<char,int> x = s[s.size()-1];
         s.erase(s.end());
+        if((get<0>(x) == '(' && consensus_structure[i] == '>') || (get<0>(x) == '<' && consensus_structure[i] == ')')){
+            cout << "Error in reported structure. Pairings do not line up" << endl;
+            exit(0);
+        }
         if(i-get<1>(x) < 4){
             consensus_structure[i] = '_';
             consensus_structure[get<1>(x)] = '_';
@@ -69,6 +77,7 @@ for(int i=0; i<consensus_structure.length();++i){
     }
 }
 return consensus_structure;
+}
 }
 bool canMatch(char x, char y){
 
