@@ -77,7 +77,7 @@ for(int i=0; i<consensus_structure.length();++i){
     }
 }
 return consensus_structure;
-}
+
 }
 bool canMatch(char x, char y){
 
