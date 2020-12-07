@@ -36,44 +36,37 @@ This can be useful if you are getting errors about your compiler not having C++1
 
 After installing you can move the executables wherever you wish, but you should not delete or move the simfold folder, or you must recompile the executables. If you move the folders and wish to recompile, you should first delete the created "build" folder before recompiling.
 
-#### How to use:
-    Arguments:
-        KnotALi:
-            --f <FASTA file>
-            --c <Clustal file>
-            --o <output type>
+Help
+========================================
 
-        Remarks:
-            input file must be either FASTA or clustal
-            if --o is provided with just FASTA, the output will remain the same as normal
-    
-    Sequences requirements:
-        containing only characters GCAU
-        are the same size (gapped or non-gapped)
+```
+Usage: sparsemfefold[options] [sequence]
+```
 
+Read RNA sequence from stdin or cmdline; predict minimum
+free energy and optimum structure using the time- and
+space-efficient MFE RNA folding algorithm of Will and
+Jabbari, 2015. The results are equivalent to RNAfold -d0,
+but the computation takes less time (for long sequences) and
+much less space.
 
+```
+  -h, --help             Print help and exit
+  -V, --version          Print version and exit
+  -v, --verbose          Turn on verbose
+  -i, --input-type       Specify input file type (CLUSTAL or FASTA, base is FASTA)
+  -o, --output-file      Specify output file
+  -s, --stacking         Turn on stacking
+  -t, --threads          Specify number of threads
+```
+
+The input sequence is read from standard input, unless it is
+given on the command line.
 
 #### Example:
-    assume you are in the directory where the KnotAli executable is located
-    ./allFold /home/username/Desktop/myinputfile.fa
-    ./allFold -o "CLUSTAL" /home/username/Desktop/myinputfile.fa
-    ./allFold -i "CLUSTAL" /home/username/Desktop/myinputfile.fa"
-    ./allFold -i "CLUSTAL" -o "CLUSTAL" /home/username/Desktop/myinputfile.fa
-    
-
-    
-#### Exit code:
-    0       success
-    1	    invalid argument error 
-    3	    thread error
-    4       i/o error
-    5       pipe error
-    6       positive energy error
-    error code with special meaning: http://tldp.org/LDP/abs/html/exitcodes.html
-    2	    Misuse of shell builtins (according to Bash documentation)
-    126	    Command invoked cannot execute
-    127	    "command not found"
-    128	    Invalid argument to exit	
-    128+n	Fatal error signal "n"
-    130	    Script terminated by Control-C
-    255	    Exit status out of range (range is 0-255)
+    assume you are in the source directory
+    ./build/src/KnotAli myinputfile.afa
+    ./build/src/KnotAli -s myinputfile.afa
+    ./build/src/KnotAli -t 6 myinputfile.afa
+    ./build/src/KnotAli -o outputfile.afa myinputfile.afa
+   
