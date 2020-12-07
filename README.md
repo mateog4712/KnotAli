@@ -40,15 +40,10 @@ Help
 ========================================
 
 ```
-Usage: sparsemfefold[options] [sequence]
+Usage: KnotAli[options] [sequence]
 ```
 
-Read RNA sequence from stdin or cmdline; predict minimum
-free energy and optimum structure using the time- and
-space-efficient MFE RNA folding algorithm of Will and
-Jabbari, 2015. The results are equivalent to RNAfold -d0,
-but the computation takes less time (for long sequences) and
-much less space.
+Read input file from cmdline; predict minimumfree energy and optimum structure using the time- and space-efficient MFE RNA folding algorithm for each sequence in the alignment.
 
 ```
   -h, --help             Print help and exit
