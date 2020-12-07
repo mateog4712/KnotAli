@@ -1,5 +1,7 @@
 # Ian Wark July 6 2017
 
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
+
 SET(SOURCE
   simfold.cpp
   src/common/params.cpp src/common/common.cpp	
@@ -11,8 +13,9 @@ SET(SOURCE
   src/simfold/s_sub_folding.cpp src/simfold/s_partition_function.cpp
 )
 
+
 # pass SIMFOLD_HOME to binary
-set(SIMFOLD_HOME ${CMAKE_SOURCE_DIR}/simfold)
+set(SIMFOLD_HOME ${CMAKE_CURRENT_SOURCE_DIR})
 add_definitions("-DSIMFOLD_HOME=\"${SIMFOLD_HOME}\"")
 
 # set location to make .a file

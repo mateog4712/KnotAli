@@ -1,4 +1,4 @@
-#include "../include/ArrayOperations.h"
+#include "ArrayOperations.hh"
 #include <errno.h>
 #include <cmath>
 #include <stdlib.h>     /* calloc, exit, free */

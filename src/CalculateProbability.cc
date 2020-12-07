@@ -1,5 +1,5 @@
-#include "../include/CalculateProbability.h"
-#include "../include/ArrayOperations.h"
+#include "CalculateProbability.hh"
+#include "ArrayOperations.hh"
 #include <iostream>
 #include <stdlib.h>     /* calloc, exit, free */
 #include <stdio.h>      /* printf, scanf, NULL */

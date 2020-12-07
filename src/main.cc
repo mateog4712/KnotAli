@@ -1,6 +1,6 @@
-#include "../include/allFold.h"
-#include "../include/mutual_information.h"
-#include "../include/utils.h"
+#include "mutual_information.hh"
+#include "utils.hh"
+#include "cmdline.hh"
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -10,75 +10,56 @@
 
 using namespace std;
 
-#define MAXSLEN 5000
-void usage (const char *prog)
-// PRE:  None
-// POST: Prints the usage message and exits
-{
-    printf ("\nUsage: %s -f <location of alignment> [options]\n\n", prog);
-    printf ("  -f <location of alignment>\n");
-    printf ("\t The alignment to fold, max length is %d\n\n", MAXSLEN);
-    printf ("Options:\n");
-    printf ("  -i <Alignment Type> \n");
-    printf ("\t The type of alignment: FASTA or CLUSTAL (default is FASTA) \n\n");
-    printf ("  -p <number of threads>\n");
-    printf ("\t Runs the program in parallel using the specified number of threads\n\n");
-    printf ("  -s\n\tTurn stacking on which takes into account surrounding base pairs while running, by default it is false\n\n");
-    printf ("  -v\n\tGives a verbose output\n\n");
-    printf ("  -h\n\tPrint this help message\n\n");
-    printf ("Examples:\n");
-    printf ("\t%s -f sample.afa -i FASTA \n", prog);
-    printf ("\t%s -f sample.aln -i CLUSTAL \n", prog);
-    printf ("\t%s -f sample.aln -i CLUSTAL -s\n", prog);
-    exit (0);
-}
 int main(int argc, char *argv[]) {
+
+
+    args_info args_info;
+
+	// get options (call gengetopt command line parser)
+	if (cmdline_parser (argc, argv, &args_info) != 0) {
+	exit(1);
+	}
+
+	string input_file;
+	if (args_info.inputs_num>0) {
+	input_file=args_info.inputs[0];
+	} else {
+	getline(cin,input_file);
+	}
     
-    //int c;
-    vector <string> list;
-    string typeI = "FASTA";
-    string inputFile;
-    int threads = 1;
-    bool stack = false;
-    bool verbose = false;
-    int c;
 
-    opterr = 0;
+    bool verbose;
+	verbose = args_info.verbose_given;
 
-    while ((c = getopt (argc, argv, "f:i:p:svh")) != -1)
-        switch (c)
-        {
-            case 'f':
-                inputFile = optarg;
-                break;
-            case 'i':
-                typeI = optarg;
-                break;
-            case 'p':
-                threads = atoi(optarg);
-                break;
-            case 's':
-                stack = true;
-                break;
-            case 'v':
-                verbose = true;
-                break;    
-            case 'h':
-                usage(argv[0]);
-                break;
+    bool stacking;
+    stacking = args_info.stacking_given;
 
-            default:
-                abort ();
-        }
+    string input_type;
+    args_info.input_type_given ? input_type = type : input_type = "FASTA";
+
+    int threads;
+    args_info.threads_given ? threads = numThreads : threads = 1;
+
+    string output_file;
+    args_info.output_file_given ? output_file = file : output_file = "results.afa";
+
+    cmdline_parser_free(&args_info);
+
+    if(!exists(input_file)){
+        cout << "Input File does not exist!" << endl;
+        exit (EXIT_FAILURE);
+    }
+
+    
 
     // Define the data structures for the sequences
     vector <string> seqs;
     vector <string> seqs2;
     vector <string> names;
     // Get the arguments
-    if(typeI == "FASTA"){
+    if(input_type == "FASTA"){
 
-        ifstream in(inputFile.c_str());
+        ifstream in(input_file.c_str());
         string str;
         int i = -1;
         bool newSeq = false;
@@ -113,9 +94,9 @@ int main(int argc, char *argv[]) {
         }
         in.close();
 
-    }else if(typeI == "CLUSTAL"){
+    }else if(input_type == "CLUSTAL"){
         
-        ifstream in(inputFile.c_str());
+        ifstream in(input_file.c_str());
         string str;
         int i = 0;
 
@@ -169,14 +150,14 @@ int main(int argc, char *argv[]) {
     int n_seq = seqs.size();
 
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
-    string structure = MIVector(seqs,stack);
+    string structure = MIVector(seqs,stacking);
     if(verbose){
       printf ("\t The number of sequences is %d\n", n_seq);
       printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  
     }
     
     // The output file
-    ofstream out("results.afa", ofstream::trunc);
+    ofstream out(output_file, ofstream::trunc);
     for(int i=0; i<n_seq; ++i){
     
         string consensusCh = returnUngapped(seqs[i],structure);

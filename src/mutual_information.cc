@@ -1,5 +1,5 @@
-#include "../include/mutual_information.h"
-#include "../include/CalculateProbability.h"
+#include "mutual_information.hh"
+#include "CalculateProbability.hh"
 #include <vector>
 #include <math.h>
 #include <iostream>

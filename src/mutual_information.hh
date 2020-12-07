@@ -1,6 +1,6 @@
 #ifndef MUTUAL_INFORMATION
 #define MUTUAL_INFORMATION
-#include "CalculateProbability.h"
+#include "CalculateProbability.hh"
 #include <vector>
 #include <string>
 #include <tuple>
