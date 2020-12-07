@@ -3,7 +3,6 @@
 #include <cmath>
 #include <stdlib.h>     /* calloc, exit, free */
 
-using namespace std;
 
 int maxState(uint *vector, int vectorLength) {
     int i, max;

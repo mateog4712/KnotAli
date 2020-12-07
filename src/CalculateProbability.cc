@@ -4,7 +4,6 @@
 #include <stdlib.h>     /* calloc, exit, free */
 #include <stdio.h>      /* printf, scanf, NULL */
 
-using namespace std;
 
 JointProbabilityState calculateJointProbability(uint *firstVector, uint *secondVector, int vectorLength) {
 

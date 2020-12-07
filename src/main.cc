@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-using namespace std;
 
 int main(int argc, char *argv[]) {
 
@@ -20,11 +19,11 @@ int main(int argc, char *argv[]) {
 	exit(1);
 	}
 
-	string input_file;
+	std::string input_file;
 	if (args_info.inputs_num>0) {
 	input_file=args_info.inputs[0];
 	} else {
-	getline(cin,input_file);
+	std::getline(std::cin,input_file);
 	}
     
 
@@ -34,36 +33,36 @@ int main(int argc, char *argv[]) {
     bool stacking;
     stacking = args_info.stacking_given;
 
-    string input_type;
+    std::string input_type;
     args_info.input_type_given ? input_type = type : input_type = "FASTA";
 
     int threads;
     args_info.threads_given ? threads = numThreads : threads = 1;
 
-    string output_file;
+    std::string output_file;
     args_info.output_file_given ? output_file = file : output_file = "results.afa";
 
     cmdline_parser_free(&args_info);
 
     if(!exists(input_file)){
-        cout << "Input File does not exist!" << endl;
+        std::cout << "Input File does not exist!" << std::endl;
         exit (EXIT_FAILURE);
     }
 
     
 
     // Define the data structures for the sequences
-    vector <string> seqs;
-    vector <string> seqs2;
-    vector <string> names;
+    std::vector <std::string> seqs;
+    std::vector <std::string> seqs2;
+    std::vector <std::string> names;
     // Get the arguments
     if(input_type == "FASTA"){
 
-        ifstream in(input_file.c_str());
-        string str;
+        std::ifstream in(input_file.c_str());
+        std::string str;
         int i = -1;
         bool newSeq = false;
-        while (getline(in, str)) {
+        while (std::getline(in, str)) {
 
             if(str[0] == '>'){
                 newSeq = true;
@@ -72,7 +71,7 @@ int main(int argc, char *argv[]) {
             } 
             
             if(newSeq == true) {
-                string str2 = str;
+                std::string str2 = str;
                 for(int j=str2.length()-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
                 }
@@ -82,13 +81,13 @@ int main(int argc, char *argv[]) {
                 newSeq = false;
             }
             else{
-               string str2 = str;
+               std::string str2 = str;
                 for(int j=str2.length()-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
                 }
-                string temp = seqs2[i] + str2;
+                std::string temp = seqs2[i] + str2;
                 seqs2[i] = temp;
-                string temp2 = seqs[i] + str;
+                std::string temp2 = seqs[i] + str;
                 seqs[i] = temp2;
             }
         }
@@ -96,18 +95,18 @@ int main(int argc, char *argv[]) {
 
     }else if(input_type == "CLUSTAL"){
         
-        ifstream in(input_file.c_str());
-        string str;
+        std::ifstream in(input_file.c_str());
+        std::string str;
         int i = 0;
 
         bool first = true;
-        getline(in, str);
+        std::getline(in, str);
         if(str.substr(0,7) != "CLUSTAL"){
-            cout << "Not a valid CLUSTAL file!" << endl;
+            std::cout << "Not a valid CLUSTAL file!" << std::endl;
             exit (EXIT_FAILURE);
         }
-        getline(in, str);
-        while (getline(in, str)) {
+        std::getline(in, str);
+        while (std::getline(in, str)) {
             if(names.size() == 0 && str == "") continue;
 
             if(str == "" || str[0] == ' '){
@@ -117,7 +116,7 @@ int main(int argc, char *argv[]) {
             }
 
             if(first){
-                istringstream ss(str);
+                std::istringstream ss(str);
                 ss >> str;
                 names.push_back(str);
                 ss >> str;
@@ -129,7 +128,7 @@ int main(int argc, char *argv[]) {
 
             }
             else{
-                istringstream ss(str);
+                std::istringstream ss(str);
                 ss >> str;
                 ss >> str;
                 seqs[i] = seqs[i] + str;
@@ -143,39 +142,39 @@ int main(int argc, char *argv[]) {
         in.close();
     }
     else{
-        cout << "Please give valid input type" << endl;
+        std::cout << "Please give valid input type" << std::endl;
         exit (EXIT_FAILURE);
     }
     // number of sequences
     int n_seq = seqs.size();
 
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
-    string structure = MIVector(seqs,stacking);
+    std::string structure = MIVector(seqs,stacking);
     if(verbose){
       printf ("\t The number of sequences is %d\n", n_seq);
       printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  
     }
     
     // The output file
-    ofstream out(output_file, ofstream::trunc);
+    std::ofstream out(output_file, std::ofstream::trunc);
     for(int i=0; i<n_seq; ++i){
     
-        string consensusCh = returnUngapped(seqs[i],structure);
+        std::string consensusCh = returnUngapped(seqs[i],structure);
     
         // run it
-        string final = iterativeFold(seqs2[i],consensusCh);
+        std::string final = iterativeFold(seqs2[i],consensusCh);
     
         // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
         if(names[i].substr(names[i].length()-3,3) == ".ct") names[i] = names[i].substr(0,names[i].length()-3);
-        istringstream ss(names[i]);
+        std::istringstream ss(names[i]);
         ss >> names[i];
 
         /**   Outputting to file     **/
-        out << ">" + names[i] << endl;
-        out << seqs2[i] << endl;
-        out << final << endl;
-        out << endl;
+        out << ">" + names[i] << std::endl;
+        out << seqs2[i] << std::endl;
+        out << final << std::endl;
+        out << std::endl;
     }
     out.close();
     

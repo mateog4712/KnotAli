@@ -9,10 +9,8 @@
 #include <vector>
 #include <tuple>
 
-using namespace std;
 
-
-bool exists (const string& name) {
+bool exists (const std::string& name) {
   struct stat buffer;   
   return (stat (name.c_str(), &buffer) == 0); 
 }
@@ -25,7 +23,7 @@ bool canPair(int n){
 
 /** This functions takes a string and two chars. If char1 appears, it is replaced with char2**/
 char* replaceChar(char *stri, char ch1, char ch2) {
-    string seq(stri);
+    std::string seq(stri);
     // cout << seq.length() << endl;
     for (int i = 0; i < seq.length(); ++i) {
         if (seq[i] == ch1)
@@ -38,40 +36,40 @@ char* replaceChar(char *stri, char ch1, char ch2) {
 
 /** Takes in the consensus sequence and structure and the original sequence and returns the ungapped version 
 of the structure to be used in simfold **/
-string returnUngapped(string input_sequence, string consensus_structure){
+std::string returnUngapped(std::string input_sequence, std::string consensus_structure){
 int length = consensus_structure.length();
 
 int sublength=0;
 int j = length;
-vector<tuple<char,int> > s;
+std::vector<std::tuple<char,int> > s;
 for(int i=0;i<length;i++){
     if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
-        s.push_back(make_tuple(consensus_structure[i],i));
+        s.push_back(std::make_tuple(consensus_structure[i],i));
         continue;
     }
     if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
-        tuple<char,int> x = s[s.size()-1];
+        std::tuple<char,int> x = s[s.size()-1];
         s.erase(s.end());
-        if((get<0>(x) == '(' && consensus_structure[i] == '>') || (get<0>(x) == '<' && consensus_structure[i] == ')')){
-            cout << "Error in reported structure. Pairings do not line up" << endl;
+        if((std::get<0>(x) == '(' && consensus_structure[i] == '>') || (std::get<0>(x) == '<' && consensus_structure[i] == ')')){
+            std::cout << "Error in reported structure. Pairings do not line up" << std::endl;
             exit(0);
         }
         
-        if(canMatch(input_sequence[i],input_sequence[get<1>(x)])){
+        if(canMatch(input_sequence[i],input_sequence[std::get<1>(x)])){
             
             continue;
         }
         else{
             if(input_sequence[i] == '-'){
-                consensus_structure[get<1>(x)] = '_';
+                consensus_structure[std::get<1>(x)] = '_';
                 continue;
-            }else if(input_sequence[get<1>(x)] == '-'){
+            }else if(input_sequence[std::get<1>(x)] == '-'){
                 consensus_structure[i] = '_';
                 continue;   
             }
             else{
                 consensus_structure[i] = '_';
-                consensus_structure[get<1>(x)] = '_';
+                consensus_structure[std::get<1>(x)] = '_';
                 continue;
             }
         }
@@ -84,19 +82,19 @@ for(int i= input_sequence.length()-1; i>=0;--i){
 s.clear();
 for(int i=0; i<consensus_structure.length();++i){
     if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
-        s.push_back(make_tuple(consensus_structure[i],i));
+        s.push_back(std::make_tuple(consensus_structure[i],i));
         continue;
     }   
     if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
-        tuple<char,int> x = s[s.size()-1];
+        std::tuple<char,int> x = s[s.size()-1];
         s.erase(s.end());
-        if((get<0>(x) == '(' && consensus_structure[i] == '>') || (get<0>(x) == '<' && consensus_structure[i] == ')')){
-            cout << "Error in reported structure. Pairings do not line up" << endl;
+        if((std::get<0>(x) == '(' && consensus_structure[i] == '>') || (std::get<0>(x) == '<' && consensus_structure[i] == ')')){
+            std::cout << "Error in reported structure. Pairings do not line up" << std::endl;
             exit(0);
         }
-        if(i-get<1>(x) < 4){
+        if(i-std::get<1>(x) < 4){
             consensus_structure[i] = '_';
-            consensus_structure[get<1>(x)] = '_';
+            consensus_structure[std::get<1>(x)] = '_';
             continue;  
         }
     }
@@ -153,7 +151,7 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 	return true;
 }
 // Runs iterative HFold
-string iterativeFold(string seq, string str){
+std::string iterativeFold(std::string seq, std::string str){
 
     void *res;
 
