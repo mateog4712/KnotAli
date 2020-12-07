@@ -40,10 +40,10 @@ Help
 ========================================
 
 ```
-Usage: KnotAli[options] [sequence]
+Usage: KnotAli[options] [input file]
 ```
 
-Read input file from cmdline; predict minimumfree energy and optimum structure using the time- and space-efficient MFE RNA folding algorithm for each sequence in the alignment.
+Read input file from cmdline; predict minimum free energy and optimum structure using the time- and space-efficient MFE RNA folding algorithm for each sequence in the alignment.
 
 ```
   -h, --help             Print help and exit
