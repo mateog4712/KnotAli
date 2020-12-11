@@ -8,53 +8,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file, auto const& input_type){
 
-int main(int argc, char *argv[]) {
-
-
-    args_info args_info;
-
-	// get options (call gengetopt command line parser)
-	if (cmdline_parser (argc, argv, &args_info) != 0) {
-	exit(1);
-	}
-
-	std::string input_file;
-	if (args_info.inputs_num>0) {
-	input_file=args_info.inputs[0];
-	} else {
-	std::getline(std::cin,input_file);
-	}
-    
-
-    bool verbose;
-	verbose = args_info.verbose_given;
-
-    bool stacking;
-    stacking = args_info.stacking_given;
-
-    std::string input_type;
-    args_info.input_type_given ? input_type = type : input_type = "FASTA";
-
-    int threads;
-    args_info.threads_given ? threads = numThreads : threads = 1;
-
-    std::string output_file;
-    args_info.output_file_given ? output_file = file : output_file = "results.afa";
-
-    cmdline_parser_free(&args_info);
-
-    if(!exists(input_file)){
-        std::cout << "Input File does not exist!" << std::endl;
-        exit (EXIT_FAILURE);
-    }
-
-    
-
-    // Define the data structures for the sequences
-    std::vector <std::string> seqs;
-    std::vector <std::string> seqs2;
-    std::vector <std::string> names;
     // Get the arguments
     if(input_type == "FASTA"){
 
@@ -145,11 +100,63 @@ int main(int argc, char *argv[]) {
         std::cout << "Please give valid input type" << std::endl;
         exit (EXIT_FAILURE);
     }
+}
+
+
+int main(int argc, char *argv[]) {
+
+
+    args_info args_info;
+
+	// get options (call gengetopt command line parser)
+	if (cmdline_parser (argc, argv, &args_info) != 0) {
+	exit(1);
+	}
+
+	std::string input_file;
+	if (args_info.inputs_num>0) {
+	input_file=args_info.inputs[0];
+	} else {
+	std::getline(std::cin,input_file);
+	}
+    
+
+    bool verbose;
+	verbose = args_info.verbose_given;
+
+    bool stacking;
+    stacking = args_info.stacking_given;
+
+    std::string input_type;
+    args_info.input_type_given ? input_type = type : input_type = "FASTA";
+
+    int threads;
+    args_info.threads_given ? threads = numThreads : threads = 1;
+
+    std::string output_file;
+    args_info.output_file_given ? output_file = file : output_file = "results.afa";
+
+    cmdline_parser_free(&args_info);
+
+    if(!exists(input_file)){
+        std::cout << "Input File does not exist!" << std::endl;
+        exit (EXIT_FAILURE);
+    }
+
+    // Define the data structures for the sequences
+    std::vector <std::string> seqs;
+    std::vector <std::string> seqs2;
+    std::vector <std::string> names;
+
+    updateVectors(seqs,seqs2,names,input_file, input_type);
+
     // number of sequences
     int n_seq = seqs.size();
 
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
-    std::string structure = MIVector(seqs,stacking);
+    auto structure = MIVector(seqs,stacking);
+
+
     if(verbose){
       printf ("\t The number of sequences is %d\n", n_seq);
       printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  

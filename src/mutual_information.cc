@@ -8,6 +8,26 @@
 #include <algorithm>
 #include <cstring>
 
+// Checks to see if pair is pseudoknotted
+auto const check_Pseudoknot(auto const& used, auto const& hotspot){
+  for(int j = 0; j<used.size();++j){
+      if((std::get<0>(hotspot.pair) < std::get<0>(used[j])  && std::get<1>(hotspot.pair) >  std::get<0>(used[j]) && std::get<1>(hotspot.pair) <  std::get<1>(used[j])) || (std::get<0>(hotspot.pair) < std::get<1>(used[j])  && std::get<1>(hotspot.pair) >  std::get<1>(used[j]) && std::get<0>(hotspot.pair) >  std::get<0>(used[j]))) return true;
+  }
+
+  // std::for_each( std::cbegin( used ),std::cend( used ),[&]( auto const tuple ) {
+  //             auto const [first,second] =tuple;
+  //             if((std::get<0>(hotspot.pair) < first  && std::get<1>(hotspot.pair) >  first && std::get<1>(hotspot.pair) <  second) || (std::get<0>(hotspot.pair) < second  && std::get<1>(hotspot.pair) >  second && std::get<0>(hotspot.pair) >  first)){
+  //               return true;
+  //             } 
+  //           } );
+  
+  
+  return false;
+  
+}
+
+
+
 
 std::string MIVector(std::vector<std::string> seqs, bool stack){
   
@@ -110,7 +130,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
     if(structure[std::get<0>(hotspots[i].pair)] != '_' || structure[std::get<1>(hotspots[i].pair)] != '_') continue;
 
     // checks for pseudknots
-    bool pseudoknot = check_Pseudoknot(used,hotspots[i]);
+    auto const pseudoknot = check_Pseudoknot(used,hotspots[i]);
     if(!pseudoknot){
       // Replaces blank structure based on pairs
       structure[std::get<0>(hotspots[i].pair)] = '(';
@@ -182,13 +202,7 @@ double discAndCalcMutualInformation(double *dataVector, double *targetVector, in
   return mutualInformation;
 }
 
-// Checks to see if pair is pseudoknotted
-bool check_Pseudoknot(std::vector<std::tuple<int,int> > used, Hotspot hotspot){
-  for(int j = 0; j<used.size();++j){
-      if((std::get<0>(hotspot.pair) < std::get<0>(used[j])  && std::get<1>(hotspot.pair) >  std::get<0>(used[j]) && std::get<1>(hotspot.pair) <  std::get<1>(used[j])) || (std::get<0>(hotspot.pair) < std::get<1>(used[j])  && std::get<1>(hotspot.pair) >  std::get<1>(used[j]) && std::get<0>(hotspot.pair) >  std::get<0>(used[j]))) return true;
-  }
-  return false;
-}
+
 
 
 
