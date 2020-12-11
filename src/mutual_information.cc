@@ -13,15 +13,6 @@ auto const check_Pseudoknot(auto const& used, auto const& hotspot){
   for(int j = 0; j<used.size();++j){
       if((std::get<0>(hotspot.pair) < std::get<0>(used[j])  && std::get<1>(hotspot.pair) >  std::get<0>(used[j]) && std::get<1>(hotspot.pair) <  std::get<1>(used[j])) || (std::get<0>(hotspot.pair) < std::get<1>(used[j])  && std::get<1>(hotspot.pair) >  std::get<1>(used[j]) && std::get<0>(hotspot.pair) >  std::get<0>(used[j]))) return true;
   }
-
-  // std::for_each( std::cbegin( used ),std::cend( used ),[&]( auto const tuple ) {
-  //             auto const [first,second] =tuple;
-  //             if((std::get<0>(hotspot.pair) < first  && std::get<1>(hotspot.pair) >  first && std::get<1>(hotspot.pair) <  second) || (std::get<0>(hotspot.pair) < second  && std::get<1>(hotspot.pair) >  second && std::get<0>(hotspot.pair) >  first)){
-  //               return true;
-  //             } 
-  //           } );
-  
-  
   return false;
   
 }
