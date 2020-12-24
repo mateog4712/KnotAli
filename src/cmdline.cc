@@ -352,8 +352,8 @@ int cmdline_parser_internal (int argc, char **argv, struct args_info *args_info,
         
         
           if (update_arg( 0 , 
-               0 , &(args_info->input_type_given),
-              &(local_args_info.input_type_given), optarg, 0, 0, ARG_NO, 0, 0,
+               0 , &(args_info->stacking_given),
+              &(local_args_info.stacking_given), optarg, 0, 0, ARG_NO, 0, 0,
               "stacking", 's',
               additional_error))
             goto failure;
@@ -364,8 +364,8 @@ int cmdline_parser_internal (int argc, char **argv, struct args_info *args_info,
         
         
           if (update_arg( 0 , 
-               0 , &(args_info->input_type_given),
-              &(local_args_info.input_type_given), optarg, 0, 0, ARG_NO, 0, 0,
+               0 , &(args_info->threads_given),
+              &(local_args_info.threads_given), optarg, 0, 0, ARG_NO, 0, 0,
               "threads", 't',
               additional_error))
             goto failure;

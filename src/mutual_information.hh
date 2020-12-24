@@ -11,7 +11,7 @@ struct Hotspot {
     double score;
 };
 
-std::string MIVector(std::vector<std::string> seqs, bool stack = false);
+auto MIVector(std::vector<std::string> seqs, bool stack = false);
 
 auto const check_Pseudoknot(auto const& used, auto const& hotspot);
 

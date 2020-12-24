@@ -20,7 +20,7 @@ auto const check_Pseudoknot(auto const& used, auto const& hotspot){
 
 
 
-std::string MIVector(std::vector<std::string> seqs, bool stack){
+auto MIVector(std::vector<std::string> seqs, bool stack){
   
 
   // Initialize our vector of pairs with score > mean
