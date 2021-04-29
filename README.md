@@ -51,8 +51,6 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
   -v, --verbose          Turn on verbose
   -i, --input-type       Specify input file type (CLUSTAL or FASTA, base is FASTA)
   -o, --output-file      Specify output file
-  -s, --stacking         Turn on stacking
-  -t, --threads          Specify number of threads
 ```
 
 The input sequence is read from standard input, unless it is
@@ -61,7 +59,5 @@ given on the command line.
 #### Example:
     assume you are in the source directory
     ./build/src/KnotAli myinputfile.afa
-    ./build/src/KnotAli -s myinputfile.afa
-    ./build/src/KnotAli -t 6 myinputfile.afa
     ./build/src/KnotAli -o outputfile.afa myinputfile.afa
    
