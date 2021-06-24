@@ -17,6 +17,7 @@ auto const check_Pseudoknot(auto const& used, auto const& hotspot){
   
 }
 
+// Calculates the APC value for finding MIp
 auto const APC(auto const& col_i, auto const& col_j, auto const& mean){
 
 return (col_i*col_j)/mean;
@@ -25,7 +26,9 @@ return (col_i*col_j)/mean;
 
 
 
-
+// Find the intermediary structure used in following thermodynamic step via
+// covariation derived from finding the pairs with a MIp value greater than
+// a set threshold
 std::string MIVector(std::vector<std::string> seqs, bool stack){
   
 
@@ -53,8 +56,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
     
     for(int j = 0;j<n_seq;++j){
 
-      //  cols[i][j] = base[seqs[j][i]];
-       cols[i*n_seq+j] = base[seqs[j][i]];
+      cols[i*n_seq+j] = base[seqs[j][i]];
 
     }
   }
@@ -82,9 +84,9 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   double tot = 2.0/(((double) n-1)*(double) n);
   double mean = sum*tot;
   for(int i = 0; i<n;++i){
-    double column_mean_i = column_sum[i]/(n-1); //using cnt[i] rather than n causes the difference but what is the best solution
+    double column_mean_i = column_sum[i]/(n-1);
     for(int j = 4;(i+j)<n;++j){
-      double column_mean_ij = column_sum[i+j]/(n-1); //cnt[i+j]
+      double column_mean_ij = column_sum[i+j]/(n-1);
       auto const colij = calcMutualInformation(&cols[i*n_seq],&cols[(i+j)*n_seq], n_seq);
       double score = colij - APC(column_mean_i,column_mean_ij,mean);
       
@@ -145,7 +147,6 @@ double mi(JointProbabilityState state) {
   ** I(X;Y) = \sum_x \sum_y p(x,y) * \log (p(x,y)/p(x)p(y))
   */
   for (i = 0; i < state.numJointStates; i++) {
-    // if(i==0 || i==5 || i==10 || i==15 || i==20) penalty+=state.jointProbabilityVector[i];
     if(i == 9 || i== 13 || i== 17 || i==19 || i==21 || i== 23){
     
     firstIndex = i % state.numFirstStates;
@@ -161,8 +162,6 @@ double mi(JointProbabilityState state) {
   
 
   mutualInformation /= log(2);
-  // Gap penalty added
-  // mutualInformation-=(penalty/2);
  
   return mutualInformation;
 }
