@@ -15,6 +15,8 @@ std::string MIVector(std::vector<std::string> seqs, bool stack = false);
 
 auto const check_Pseudoknot(auto const& used, auto const& hotspot);
 
+auto const APC(auto const& col_i, auto const& col_j, auto const& mean);
+
 /*******************************************************************************
 ** calculateMutualInformation returns the log base LOG_BASE mutual information between
 ** dataVector and targetVector, I(X;Y)

@@ -34,71 +34,144 @@ char* replaceChar(char *stri, char ch1, char ch2) {
     return stri;
 }
 
-/** Takes in the consensus sequence and structure and the original sequence and returns the ungapped version 
-of the structure to be used in simfold **/
+/**
+ *  Takes in the consensus sequence and structure and the original sequence and returns the ungapped version 
+ * of the structure to be used in simfold
+ *  Works with pseudoknotted structures
+ **/
 std::string returnUngapped(std::string input_sequence, std::string consensus_structure){
-int length = consensus_structure.length();
+    int length = consensus_structure.length();
 
-int sublength=0;
-int j = length;
-std::vector<std::tuple<char,int> > s;
-for(int i=0;i<length;i++){
-    if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
-        s.push_back(std::make_tuple(consensus_structure[i],i));
-        continue;
-    }
-    if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
-        std::tuple<char,int> x = s[s.size()-1];
-        s.erase(s.end());
-        if((std::get<0>(x) == '(' && consensus_structure[i] == '>') || (std::get<0>(x) == '<' && consensus_structure[i] == ')')){
-            std::cout << "Error in reported structure. Pairings do not line up" << std::endl;
-            exit(0);
-        }
-        
-        if(canMatch(input_sequence[i],input_sequence[std::get<1>(x)])){
-            
+    int sublength=0;
+    int j = length;
+    std::vector<std::tuple<char,int> > paren;
+    std::vector<std::tuple<char,int> > sb;
+    std::vector<std::tuple<char,int> > cb;
+    std::vector<std::tuple<char,int> > lts;
+    for(int i=0;i<length;i++){
+        if(consensus_structure[i] == '(') {
+            paren.push_back(std::make_tuple(consensus_structure[i],i));
             continue;
         }
-        else{
-            if(input_sequence[i] == '-'){
-                consensus_structure[std::get<1>(x)] = '_';
+        else if(consensus_structure[i] == '<') {
+            lts.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        else if(consensus_structure[i] == '[') {
+            sb.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        else if(consensus_structure[i] == '{') {
+            cb.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        std::tuple<char,int> x;
+        bool close = false;
+        if (consensus_structure[i] == ')' && !paren.empty()){
+            x = paren[paren.size()-1];
+            paren.erase(paren.end());
+            close = true;
+
+        }
+        else if (consensus_structure[i] == '>' && !lts.empty()){
+            x = lts[lts.size()-1];
+            lts.erase(lts.end());
+            close = true;
+        }
+        else if (consensus_structure[i] == ']' && !sb.empty()){
+            x = sb[sb.size()-1];
+            sb.erase(sb.end());
+            close = true;
+        }
+        else if (consensus_structure[i] == '}' && !cb.empty()){
+            x = cb[cb.size()-1];
+            cb.erase(cb.end());
+            close = true;
+        }
+            
+        // Checks to see if the pair can match
+        if(close){
+            if(canMatch(input_sequence[i],input_sequence[std::get<1>(x)])){
+                
                 continue;
-            }else if(input_sequence[std::get<1>(x)] == '-'){
-                consensus_structure[i] = '_';
-                continue;   
             }
             else{
+                if(input_sequence[i] == '-'){
+                    consensus_structure[std::get<1>(x)] = '_';
+                    continue;
+                }else if(input_sequence[std::get<1>(x)] == '-'){
+                    consensus_structure[i] = '_';
+                    continue;   
+                }
+                else{
+                    consensus_structure[i] = '_';
+                    consensus_structure[std::get<1>(x)] = '_';
+                    continue;
+                }
+            }
+        }    
+    }
+    // Reports if not all pairs were closed
+    if(!paren.empty() || !lts.empty() || !sb.empty() || !cb.empty()){
+        std::cout << "Error in reported structure. More left pairings than right pairings" << std::endl;
+        exit(0); 
+    }
+    // Erase Gaps
+    for(int i= input_sequence.length()-1; i>=0;--i){
+        if(input_sequence[i] == '-') consensus_structure.erase(i,1);
+    }
+
+    // Checks for pairs less than 3 distance away
+    for(int i=0;i<length;i++){
+        if(consensus_structure[i] == '(') {
+            paren.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        else if(consensus_structure[i] == '<') {
+            lts.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        else if(consensus_structure[i] == '[') {
+            sb.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        else if(consensus_structure[i] == '{') {
+            cb.push_back(std::make_tuple(consensus_structure[i],i));
+            continue;
+        }
+        std::tuple<char,int> x;
+        bool close = false;
+        if (consensus_structure[i] == ')' && !paren.empty()){
+            x = paren[paren.size()-1];
+            paren.erase(paren.end());
+            close = true;
+
+        }
+        else if (consensus_structure[i] == '>' && !lts.empty()){
+            x = lts[lts.size()-1];
+            lts.erase(lts.end());
+            close = true;
+        }
+        else if (consensus_structure[i] == ']' && !sb.empty()){
+            x = sb[sb.size()-1];
+            sb.erase(sb.end());
+            close = true;
+        }
+        else if (consensus_structure[i] == '}' && !cb.empty()){
+            x = cb[cb.size()-1];
+            cb.erase(cb.end());
+            close = true;
+        }
+            
+        if(close){
+            if(i-std::get<1>(x) < 4){
                 consensus_structure[i] = '_';
                 consensus_structure[std::get<1>(x)] = '_';
-                continue;
+                continue;  
             }
         }
-        
     }
-}
-for(int i= input_sequence.length()-1; i>=0;--i){
-    if(input_sequence[i] == '-') consensus_structure.erase(i,1);
-}
-s.clear();
-for(int i=0; i<consensus_structure.length();++i){
-    if(consensus_structure[i] == '(' || consensus_structure[i] == '<') {
-        s.push_back(std::make_tuple(consensus_structure[i],i));
-        continue;
-    }   
-    if (consensus_structure[i] == ')' || consensus_structure[i] == '>'){
-        std::tuple<char,int> x = s[s.size()-1];
-        s.erase(s.end());
-        if((std::get<0>(x) == '(' && consensus_structure[i] == '>') || (std::get<0>(x) == '<' && consensus_structure[i] == ')')){
-            std::cout << "Error in reported structure. Pairings do not line up" << std::endl;
-            exit(0);
-        }
-        if(i-std::get<1>(x) < 4){
-            consensus_structure[i] = '_';
-            consensus_structure[std::get<1>(x)] = '_';
-            continue;  
-        }
-    }
-}
+
 return consensus_structure;
 
 }

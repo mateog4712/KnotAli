@@ -17,6 +17,12 @@ auto const check_Pseudoknot(auto const& used, auto const& hotspot){
   
 }
 
+auto const APC(auto const& col_i, auto const& col_j, auto const& mean){
+
+return (col_i*col_j)/mean;
+
+}
+
 
 
 
@@ -41,12 +47,14 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   int n = seqs[0].length();
 
 
-  uint cols[n][n_seq] = {0};
+  uint cols[n_seq*n] = {0};
   // Find the columns for the list of seqs
   for(int i = 0; i<n;++i){
+    
     for(int j = 0;j<n_seq;++j){
 
-       cols[i][j] = base[seqs[j][i]]; 
+      //  cols[i][j] = base[seqs[j][i]];
+       cols[i*n_seq+j] = base[seqs[j][i]];
 
     }
   }
@@ -54,54 +62,36 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
 
   double column_max[n] = {0};
   double column_sum[n] = {0};
-  double scores[n][n] = {0};
-  memset(scores,0,n*n);
   double sum = 0;
-  int count = 0;
-  double maxim = 0;
-  double APC[n][n] = {0};
-
-
-  
-  
 
   // Calculate the entropy values
   for(int i = 0; i<n;++i){
     for(int j = 4;(i+j)<n;++j){
-        if(scores[i][i+j] == 0) scores[i][i+j] = calcMutualInformation(&cols[i][0],&cols[i+j][0], n_seq);
-        if(i-1 > 0 && i+j+1 < n && scores[i-1][i+j+1] == 0) scores[i-1][i+j+1] = calcMutualInformation(&cols[i-1][0],&cols[i+j+1][0], n_seq); 
-        if(scores[i+1][i+j-1] == 0 && (i+1 < n)) scores[i+1][i+j-1] = calcMutualInformation(&cols[i+1][0],&cols[i+j-1][0], n_seq); 
+        
         
         double score;
-        if(!stack) score = scores[i][i+j];
-        else {
-          double prev = (i-1 <=0 || i+j+1 >= n) ? scores[i][i+j] : scores[i-1][i+j+1];
-          double foll = (i+1 >=n && j-i-1>4) ? scores[i][i+j] : scores[i+1][i+j-1];
-          score = (prev + 2*scores[i][i+j]+ foll)/4;
-          scores[i][i+j] = score;
-        }
+        score = calcMutualInformation(&cols[i*n_seq],&cols[(i+j)*n_seq], n_seq);
         sum+=score;
-        ++count;
-        maxim =std::max(maxim,score); 
-        column_max[i] =std::max(column_max[i],score);
+        column_max[i] = std::max(column_max[i],score);
         column_max[i+j] =std::max(column_max[i+j],score);  
         column_sum[i] += score;
         column_sum[i+j] += score;
     }
   }
-  std::vector <std::tuple<int,int> > stacks;
-  double mean = sum/count;
+
+  double tot = 2.0/(((double) n-1)*(double) n);
+  double mean = sum*tot;
   for(int i = 0; i<n;++i){
-    double column_mean_i = column_sum[i]/n;
+    double column_mean_i = column_sum[i]/(n-1); //using cnt[i] rather than n causes the difference but what is the best solution
     for(int j = 4;(i+j)<n;++j){
-      double column_mean_ij = column_sum[i+j]/n;
-      APC[i][i+j] = scores[i][i+j]-(column_mean_i*column_mean_ij)/mean;
+      double column_mean_ij = column_sum[i+j]/(n-1); //cnt[i+j]
+      auto const colij = calcMutualInformation(&cols[i*n_seq],&cols[(i+j)*n_seq], n_seq);
+      double score = colij - APC(column_mean_i,column_mean_ij,mean);
       
-      if(APC[i][i+j] > .4){
+      if(score > .4){
         Hotspot hotspot;
-        
         hotspot.pair = std::make_tuple(i,i+j);
-        hotspot.score = APC[i][i+j];
+        hotspot.score = score;
         hotspots.push_back(hotspot);
       }
     }
@@ -138,7 +128,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
       infoLoss++;
     }
   }
-  if(infoLoss>n/2){
+  if(infoLoss>2*n/3){
     std::cout << "Not enough info from sequence" << std::endl;
     exit (EXIT_FAILURE);
   }
