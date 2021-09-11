@@ -100,6 +100,13 @@ void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file
         std::cout << "Please give valid input type" << std::endl;
         exit (EXIT_FAILURE);
     }
+    int length = seqs[0].length();
+    for(int i=1;i<seqs.size();++i){
+        if (seqs[i].length() != length){
+            std::cout << "All sequences must be the same length in the alignment" << std::endl;
+            exit(0);
+        }
+    }
 }
 
 
