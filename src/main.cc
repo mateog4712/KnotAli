@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
 
 
     if(verbose){
-      printf ("\t The number of sequences is %d\n", n_seq);
+      printf ("\t The number of sequences are %d\n", n_seq);
       printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  
     }
     
@@ -174,9 +174,10 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
+        double energy;
     
         // run it
-        std::string final = iterativeFold(seqs2[i],consensusCh);
+        std::string final = iterativeFold(seqs2[i],consensusCh, energy);
     
         // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);
@@ -188,6 +189,7 @@ int main(int argc, char *argv[]) {
         out << ">" + names[i] << std::endl;
         out << seqs2[i] << std::endl;
         out << final << std::endl;
+        out << energy << std::endl;
         out << std::endl;
     }
     out.close();

@@ -224,7 +224,7 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 	return true;
 }
 // Runs iterative HFold
-std::string iterativeFold(std::string seq, std::string str){
+std::string iterativeFold(std::string seq, std::string str, double &en){
 
     void *res;
 
@@ -308,6 +308,7 @@ std::string iterativeFold(std::string seq, std::string str){
         method_chosen = 4;
     } 
 
+    en = final_energy;
 
     if (final_energy == INF || method_chosen == -1) {
         fprintf(stderr, "ERROR: could not find energy\n");
