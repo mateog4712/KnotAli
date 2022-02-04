@@ -53,11 +53,58 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
   -o, --output-file      Specify output file
 ```
 
-The input sequence is read from standard input, unless it is
-given on the command line.
-
 #### Example:
-    assume you are in the source directory
-    ./build/src/KnotAli myinputfile.afa
-    ./build/src/KnotAli -o outputfile.afa myinputfile.afa
+    assume you are in the KnotAli directory
+    ./build/src/KnotAli myinputfile.txt
+    ./build/src/KnotAli -o outputfile.txt myinputfile.afa
+    
+    
+    Let's go through an example from the example folder: align_ex1.fa. The first three sequences from this file is:
+    
+    >tRNA_tdbR00000184-Asterias_amurensis-7602-Lys-CUU
+    --CUUUGAUAAGCUUAUAAUGGCA-AGCAUUAAACUCUUAAUUUAAAUCAAAGUGAUCUCACCACACUAUCAAAGACCA
+    >tRNA_tdbR00000189-Rattus_norvegicus-10116-Lys-NUU
+    ------CAUUGCGAAGC----UUAGAGCGUUAACCUUUUAAGUUAAAGUUAGAGACAACAAAUCUCCACAAUG--ACCA
+    >tRNA_tdbR00000190-Bos_taurus-9913-Lys-NUU
+    -CACUAAGAAGC--------UAUAUAGCACUAACCUUUUAAGUUAGAGAUUGAGAGCCAUAUACUCUCCUUGGUGACCA
+    
+    _(((((((___((____________))__(((((_x_____)))))_____((((_________)))))))))))_xxx (consensus structure)
+    
+    The consensus structure shown above is the result of the covariation portion of the algorithm. The '_' represents nucleotides that are allowed to pair 
+    in the final step. In contrast 'x' represents nucleotides which the covariation deemed unlikely to pair and thus are restricted from pairing. 
+    Each '(' and ')' an opening and closing base pair within the structure. The consensus can be seen when using the -v (verbose) command.
+    
+    After running KnotAli, you will have your output file (in the case of our example: align_sol1.txt) in the format of 
+    
+    line 1: Sequence name
+    line 2: Sequence
+    line 3: Output Structure
+    line 4: Energy
+    
+    We give the first three sequences from prior in this format after running: 
+    
+    >tRNA_tdbR00000184-Asterias_amurensis-7602-Lys-CUU
+    CUUUGAUAAGCUUAUAAUGGCAAGCAUUAAACUCUUAAUUUAAAUCAAAGUGAUCUCACCACACUAUCAAAGACCA
+    .((.(....[[[......]]].....(((((.......))))).....((((.........)))).).))......
+
+    >tRNA_tdbR00000189-Rattus_norvegicus-10116-Lys-NUU
+    CAUUGCGAAGCUUAGAGCGUUAACCUUUUAAGUUAAAGUUAGAGACAACAAAUCUCCACAAUGACCA
+    [[[[[.[..[[[...]]]........(((((.......))))).............].]]]]]....
+
+    >tRNA_tdbR00000190-Bos_taurus-9913-Lys-NUU
+    CACUAAGAAGCUAUAUAGCACUAACCUUUUAAGUUAGAGAUUGAGAGCCAUAUACUCUCCUUGGUGACCA
+    (((((((..[([....])].(((((.......))))).....(((([.......])))))))))))....
+
+    
+    
+#### Example Info:
+
+    The three examples were aligned using the MUSCLE software (doi:10.1186/1471-2105-5-113). The first example: align_ex1.fa was compiled of 100 tRNA sequences 
+    in FASTA format. The results of running KnotAli on this example can also be found in align_sol1.txt. 
+    align_ex2.fa, also in FASTA format, is comprised of 100 RNaseP sequences and its structures are found in align_sol2.txt. 
+    Lastly, align_ex3.aln is an example file in CLUSTAL format. It was comprised of 100 SRP sequences, and its structure can found in align_sol3.txt
+    
+
+
+
    
