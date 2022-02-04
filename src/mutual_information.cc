@@ -129,7 +129,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   int infoLoss=0;
   for(int i = 0; i<n; ++i){
     if(structure[i] == '_' && column_max[i] < mean){
-      structure[i] = '.';
+      structure[i] = 'x';
       infoLoss++;
     }
   }

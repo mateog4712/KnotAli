@@ -187,6 +187,7 @@ PARAMTYPE s_hairpin_loop::compute_energy_restricted (int i, int j, str_features 
     if (exists_restricted (i, j, fres))
         return INF;
 
+
     size = j-i-1;
     if (size < 3)
     {
