@@ -59,7 +59,7 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     ./build/src/KnotAli -o outputfile.txt myinputfile.afa
     
     
-    Let's go through an example from the example folder: align_ex1.fa. The first three sequences from this file is:
+    Let's go through an example from the example folder: align_ex1.fa. The first three sequences from this file are:
     
     >tRNA_tdbR00000184-Asterias_amurensis-7602-Lys-CUU
     --CUUUGAUAAGCUUAUAAUGGCA-AGCAUUAAACUCUUAAUUUAAAUCAAAGUGAUCUCACCACACUAUCAAAGACCA
@@ -79,23 +79,26 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     line 1: Sequence name
     line 2: Sequence
     line 3: Output Structure
-    line 4: Energy
+    line 4: Output Energy
     
     We give the first three sequences from prior in this format after running: 
     
     >tRNA_tdbR00000184-Asterias_amurensis-7602-Lys-CUU
     CUUUGAUAAGCUUAUAAUGGCAAGCAUUAAACUCUUAAUUUAAAUCAAAGUGAUCUCACCACACUAUCAAAGACCA
     .((.(....[[[......]]].....(((((.......))))).....((((.........)))).).))......
-
+    0.53
+    
     >tRNA_tdbR00000189-Rattus_norvegicus-10116-Lys-NUU
     CAUUGCGAAGCUUAGAGCGUUAACCUUUUAAGUUAAAGUUAGAGACAACAAAUCUCCACAAUGACCA
     [[[[[.[..[[[...]]]........(((((.......))))).............].]]]]]....
-
+    -2.38
+    
     >tRNA_tdbR00000190-Bos_taurus-9913-Lys-NUU
     CACUAAGAAGCUAUAUAGCACUAACCUUUUAAGUUAGAGAUUGAGAGCCAUAUACUCUCCUUGGUGACCA
     (((((((..[([....])].(((((.......))))).....(((([.......])))))))))))....
+    -11.61
 
-    
+    For each sequence, KnotAli gives the minimum free energy and structure given the restricted structure found in the covariation step.
     
 #### Example Info:
 
@@ -103,6 +106,10 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     in FASTA format. The results of running KnotAli on this example can also be found in align_sol1.txt. 
     align_ex2.fa, also in FASTA format, is comprised of 100 RNaseP sequences and its structures are found in align_sol2.txt. 
     Lastly, align_ex3.aln is an example file in CLUSTAL format. It was comprised of 100 SRP sequences, and its structure can found in align_sol3.txt
+    
+    
+##### References:
+    Robert C. Edgar. MUSCLE: a multiple sequence alignment method with reduced time and space complexity. BMC Bioinformatics, 5:113, Aug 2004
     
 
 
