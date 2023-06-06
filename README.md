@@ -12,12 +12,14 @@ Linux, macOS
 ### Installation:  
 Requirements: A compiler that supports C++11 standard (tested with g++ version 4.9.0 or higher), Pthreads, and CMake version 3.1 or greater.    
 
-[CMake](https://cmake.org/install/) version 3.1 or greater must be installed in a way that HFold can find it.    
+[CMake](https://cmake.org/install/) version 3.1 or greater must be installed in a way that KnotAli can find it.    
 To test if your Mac or Linux system already has CMake, you can type into a terminal:      
 ```
 cmake --version
 ```
 If it does not print a cmake version greater than or equal to 3.1, you will have to install CMake depending on your operating system.
+
+For issues with OpenSSL, installing libssl-dev can fix it, e.g. In Ubuntu, sudo apt-get install libssl-dev
 
 [Linux instructions source](https://geeksww.com/tutorials/operating_systems/linux/installation/downloading_compiling_and_installing_cmake_on_linux.php)
 
