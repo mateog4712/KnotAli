@@ -1,5 +1,6 @@
 # KnotAli
 
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04673-3
 #### Description:
 Software implementation of KnotAli.      
 KnotAli is an algorithm for predicting the pseudoknotted secondary structures of RNA using relaxed Hierarchical Folding.
