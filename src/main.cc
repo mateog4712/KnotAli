@@ -1,12 +1,14 @@
 #include "mutual_information.hh"
 #include "utils.hh"
 #include "cmdline.hh"
+#include "SparseRNAFolD/src/SparseRNAFolD.hh"
 #include <vector>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <stdio.h>
 #include <unistd.h>
+
 
 void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file, auto const& input_type){
 
@@ -96,6 +98,51 @@ void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file
         }
         in.close();
     }
+    else if(input_type == "STOCKHOLM"){
+        std::ifstream in(input_file.c_str());
+        std::string str;
+        int i = 0;
+        bool first = true;
+        std::getline(in,str);
+        getline(in,str);
+        while(str.substr(0,4) == "#=GF"){
+            getline(in,str);
+        }
+        while(getline(in,str)){
+
+            if(str.substr(0,4) == "#=GC") break;
+            if(str == "" || str[0] == ' '){
+                first = false;
+                i = 0;
+                continue;
+            }
+
+            if(first){
+                std::istringstream ss(str);
+                ss >> str;
+                names.push_back(str);
+                ss >> str;
+                seqs.push_back(str);
+                for(int j=str.length()-1;j>=0;--j){
+                    if(str[j] == '-') str.erase(j,1);
+                }
+                seqs2.push_back(str);
+
+            }
+            else{
+                std::istringstream ss(str);
+                ss >> str;
+                ss >> str;
+                seqs[i] = seqs[i] + str;
+                for(int j=str.length()-1;j>=0;--j){
+                    if(str[j] == '-') str.erase(j,1);
+                }
+                seqs2[i] = seqs2[i] + str;
+                ++i;
+            }
+        }
+
+    }
     else{
         std::cout << "Please give valid input type" << std::endl;
         exit (EXIT_FAILURE);
@@ -127,7 +174,6 @@ int main(int argc, char *argv[]) {
 	std::getline(std::cin,input_file);
 	}
     
-
     bool verbose;
 	verbose = args_info.verbose_given;
 
@@ -156,7 +202,9 @@ int main(int argc, char *argv[]) {
     std::vector <std::string> names;
 
     updateVectors(seqs,seqs2,names,input_file, input_type);
-
+    std::cout << names[0] << std::endl;
+    std::cout << seqs[0] << std::endl;
+    std::cout << seqs2[0] << std::endl;
     // number of sequences
     int n_seq = seqs.size();
 
@@ -176,8 +224,10 @@ int main(int argc, char *argv[]) {
         std::string consensusCh = returnUngapped(seqs[i],structure);
         double energy;
     
-        // run it
+        // run it with pseudoknots
         std::string final = iterativeFold(seqs2[i],consensusCh, energy);
+        // run it without pseudoknots
+        // std::string final = SparseRNAFold(seqs2[i],consensusCh, energy,2);
     
         // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);

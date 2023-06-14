@@ -14,6 +14,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/simfold")
 
 # create simfold library
 add_subdirectory(simfold)
+add_subdirectory(SparseRNAFolD)
 
 set(iterative_SOURCE
     Iterative/W_final.cpp 
@@ -42,8 +43,10 @@ add_definitions("-DSIMFOLD_HOME=\"${SIMFOLD_HOME}\"")
 # create executables
 add_executable(KnotAli ${KnotAli_SOURCE})
 
+
 # enable C++11
 #target_compile_features(KnotAli PRIVATE cxx_nullptr)
 
 # link to simfold
 target_link_libraries(KnotAli LINK_PUBLIC simfold)
+target_link_libraries(KnotAli LINK_PUBLIC SparseRNAFolD)
