@@ -110,7 +110,7 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     in FASTA format. The results of running KnotAli on this example can also be found in align_sol1.txt. 
     align_ex2.fa, also in FASTA format, is comprised of 100 RNaseP sequences and its structures are found in align_sol2.txt. 
     align_ex3.aln is an example file in CLUSTAL format. It was comprised of 100 SRP sequences, and its structure can found in align_sol3.txt
-    Lastly, align_ex4.stockholm is an example file in stockholm format. It was comprised of 954 tRN, and its structur can be found in align_sol4.txt. Align_sol4.txt was ran with -p input parameter which turns off pseudoknot prediction.
+    Lastly, align_ex4.stockholm is an example file in stockholm format. It was comprised of 954 tRNA, and its structur can be found in align_sol4.txt. Align_sol4.txt was ran with -p input parameter which turns off pseudoknot prediction.
     
     
 ##### References:
