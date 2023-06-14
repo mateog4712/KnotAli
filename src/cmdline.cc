@@ -24,10 +24,11 @@ const char *args_info_help[] = {
   "  -h, --help             Print help and exit",
   "  -V, --version          Print version and exit",
   "  -v, --verbose          Turn on verbose output",
-  "  -i, --input-type       Give input file type as FASTA or CLUSTAL (base is FASTA)",
+  "  -i, --input-type       Give input file type as FASTA, CLUSTAL, or Stockholm (base is FASTA)",
   "  -o, --output-file      Give location for output file",
   "  -t, --threads          Give number of threads",
   "  -s, --stacking         Turn on stacking",
+  "  -p, --pseudoknot       Turns off pseudoknot prediction",
   "\nThe input file is read from standard input, unless it is\ngiven on the command line.\n",
   
 };
@@ -56,6 +57,7 @@ static void init_args_info(struct args_info *args_info)
   args_info->output_file_help = args_info_help[4] ;
   args_info->stacking_help = args_info_help[5] ;
   args_info->threads_help = args_info_help[6] ;
+  args_info->pseudoknot_help = args_info_help[7] ;
   
 }
 void
@@ -103,6 +105,7 @@ static void clear_given (struct args_info *args_info)
   args_info->output_file_given = 0 ;
   args_info->stacking_given = 0 ;
   args_info->threads_given = 0 ;
+  args_info->pseudoknot_given = 0 ;
 }
 
 static void clear_args (struct args_info *args_info)
@@ -293,10 +296,11 @@ int cmdline_parser_internal (int argc, char **argv, struct args_info *args_info,
         { "output-file",	required_argument, NULL, 'o' },
         { "stacking",	0, NULL, 's' },
         { "threads",	required_argument, NULL, 't' },
+        { "pseudoknot",	0, NULL, 'p' },
         { 0,  0, 0, 0 }
       };
 
-      c = getopt_long (argc, argv, "hVvi:o:st:", long_options, &option_index);
+      c = getopt_long (argc, argv, "hVvi:o:st:p", long_options, &option_index);
 
       if (c == -1) break;	/* Exit from `while (1)' loop.  */
 
@@ -371,6 +375,15 @@ int cmdline_parser_internal (int argc, char **argv, struct args_info *args_info,
             goto failure;
 
             numThreads = atoi(optarg);
+        
+          break;
+        case 'p':	/* Turn on verbose output.  */
+        
+        
+          if (update_arg( 0 , 
+               0 , &(args_info->pseudoknot_given),
+              &(local_args_info.pseudoknot_given), optarg, 0, 0, ARG_NO,0, 0,"pseudoknot", 'p',additional_error))
+            goto failure;
         
           break;
         case '?':	/* Invalid option.  */

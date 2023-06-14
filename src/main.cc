@@ -3,6 +3,7 @@
 #include "cmdline.hh"
 #include "SparseRNAFolD/src/SparseRNAFolD.hh"
 #include <vector>
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -11,9 +12,10 @@
 
 
 void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file, auto const& input_type){
-
+    std::string type = input_type;
+    std::transform(type.begin(), type.end(), type.begin(), ::toupper);
     // Get the arguments
-    if(input_type == "FASTA"){
+    if(type == "FASTA"){
 
         std::ifstream in(input_file.c_str());
         std::string str;
@@ -50,7 +52,7 @@ void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file
         }
         in.close();
 
-    }else if(input_type == "CLUSTAL"){
+    }else if(type == "CLUSTAL"){
         
         std::ifstream in(input_file.c_str());
         std::string str;
@@ -98,7 +100,7 @@ void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file
         }
         in.close();
     }
-    else if(input_type == "STOCKHOLM"){
+    else if(type == "STOCKHOLM"){
         std::ifstream in(input_file.c_str());
         std::string str;
         int i = 0;
@@ -173,7 +175,8 @@ int main(int argc, char *argv[]) {
 	} else {
 	std::getline(std::cin,input_file);
 	}
-    
+    bool pseudoknot = true;
+    pseudoknot = !args_info.pseudoknot_given;
     bool verbose;
 	verbose = args_info.verbose_given;
 
@@ -219,15 +222,17 @@ int main(int argc, char *argv[]) {
     
     // The output file
     std::ofstream out(output_file, std::ofstream::trunc);
+    std::string final;
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
         double energy;
-    
-        // run it with pseudoknots
-        std::string final = iterativeFold(seqs2[i],consensusCh, energy);
+        // run it with pseudoknots or without
+        if(pseudoknot)
+        final = iterativeFold(seqs2[i],consensusCh, energy);
+        else
+        final = SparseRNAFold(seqs2[i],consensusCh, energy,2);
         // run it without pseudoknots
-        // std::string final = SparseRNAFold(seqs2[i],consensusCh, energy,2);
     
         // makes sure name is in correct format
         if(names[i].substr(names[i].length()-4,4) == ".seq") names[i] = names[i].substr(0,names[i].length()-4);

@@ -1,5 +1,6 @@
 # KnotAli
 
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04673-3
 #### Description:
 Software implementation of KnotAli.      
 KnotAli is an algorithm for predicting the pseudoknotted secondary structures of RNA using relaxed Hierarchical Folding.
@@ -9,14 +10,16 @@ Linux, macOS
 
 
 ### Installation:  
-Requirements: A compiler that supports C++11 standard (tested with g++ version 4.9.0 or higher), Pthreads, and CMake version 3.1 or greater.    
+Requirements: A compiler that supports C++20 standard (tested with g++ version 4.9.0 or higher), Pthreads, and CMake version 3.8 or greater.    
 
-[CMake](https://cmake.org/install/) version 3.1 or greater must be installed in a way that HFold can find it.    
+[CMake](https://cmake.org/install/) version 3.8 or greater must be installed in a way that KnotAli can find it.    
 To test if your Mac or Linux system already has CMake, you can type into a terminal:      
 ```
 cmake --version
 ```
-If it does not print a cmake version greater than or equal to 3.1, you will have to install CMake depending on your operating system.
+If it does not print a cmake version greater than or equal to 3.8, you will have to install CMake depending on your operating system.
+
+For issues with OpenSSL, installing libssl-dev can fix it, e.g. In Ubuntu, sudo apt-get install libssl-dev
 
 [Linux instructions source](https://geeksww.com/tutorials/operating_systems/linux/installation/downloading_compiling_and_installing_cmake_on_linux.php)
 
@@ -49,8 +52,9 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
   -h, --help             Print help and exit
   -V, --version          Print version and exit
   -v, --verbose          Turn on verbose
-  -i, --input-type       Specify input file type (CLUSTAL or FASTA, base is FASTA)
+  -i, --input-type       Specify input file type (CLUSTAL, FASTA, or Stockholm, base is FASTA)
   -o, --output-file      Specify output file
+  -p, --pseudoknot       Turns off pseudoknot prediction
 ```
 
 #### Example:
@@ -105,7 +109,8 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     The three examples were aligned using the MUSCLE software (doi:10.1186/1471-2105-5-113). The first example: align_ex1.fa was compiled of 100 tRNA sequences 
     in FASTA format. The results of running KnotAli on this example can also be found in align_sol1.txt. 
     align_ex2.fa, also in FASTA format, is comprised of 100 RNaseP sequences and its structures are found in align_sol2.txt. 
-    Lastly, align_ex3.aln is an example file in CLUSTAL format. It was comprised of 100 SRP sequences, and its structure can found in align_sol3.txt
+    align_ex3.aln is an example file in CLUSTAL format. It was comprised of 100 SRP sequences, and its structure can found in align_sol3.txt
+    Lastly, align_ex4.stockholm is an example file in stockholm format. It was comprised of 954 tRN, and its structur can be found in align_sol4.txt. Align_sol4.txt was ran with -p input parameter which turns off pseudoknot prediction.
     
     
 ##### References:
