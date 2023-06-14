@@ -205,9 +205,7 @@ int main(int argc, char *argv[]) {
     std::vector <std::string> names;
 
     updateVectors(seqs,seqs2,names,input_file, input_type);
-    std::cout << names[0] << std::endl;
-    std::cout << seqs[0] << std::endl;
-    std::cout << seqs2[0] << std::endl;
+
     // number of sequences
     int n_seq = seqs.size();
 
@@ -225,7 +223,7 @@ int main(int argc, char *argv[]) {
     std::string final;
     for(int i=0; i<n_seq; ++i){
     
-        std::string consensusCh = returnUngapped(seqs[i],structure);
+        std::string consensusCh = returnUngapped(seqs[i],structure);  
         double energy;
         // run it with pseudoknots or without
         if(pseudoknot)
