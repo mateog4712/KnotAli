@@ -229,7 +229,7 @@ int main(int argc, char *argv[]) {
         if(pseudoknot)
         final = iterativeFold(seqs2[i],consensusCh, energy);
         else
-        final = SparseRNAFold(seqs2[i],consensusCh, energy,2);
+        final = SparseRNAFold(seqs2[i],consensusCh, energy,1);
         // run it without pseudoknots
     
         // makes sure name is in correct format

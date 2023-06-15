@@ -568,7 +568,7 @@ bool is_candidate(auto const& CL,auto const& cand_comp,cand_pos_t i, cand_pos_t 
  * @param WM2ij1 The WM2 energy for the region [i,j-1]
  * @param WM2i1j1 The WM2 energy for the region [i+1,j-1]
 */
-void find_mb_dangle(const energy_t WM2ij,const energy_t WM2i1j,const energy_t WM2ij1,const energy_t WM2i1j1,auto const &params, auto const& S, const cand_pos_t i, const cand_pos_t j, cand_pos_t k, cand_pos_t l,const cand_pos_t* p_table){
+void find_mb_dangle(const energy_t WM2ij,const energy_t WM2i1j,const energy_t WM2ij1,const energy_t WM2i1j1,auto const &params, auto const& S, const cand_pos_t i, const cand_pos_t j, cand_pos_t &k, cand_pos_t &l,const cand_pos_t* p_table){
 
 	const pair_type tt = pair[S[j]][S[i]];
 	const energy_t e1 = WM2ij +  E_MLstem(tt, -1, -1, params);
@@ -793,19 +793,19 @@ void trace_WM(auto const& seq, auto const& CL, auto const& cand_comp, auto &stru
         case 1:
             k=m+1;
 			ptype= pair[S[k]][S[l]];
-			v = vk - E_MLstem(ptype,S[m],-1,params);
+			v = vk - E_MLstem(ptype,S[m],-1,params)-params->MLbase;
             break;
         case 2:
             l=j-1;
 			ptype= pair[S[k]][S[l]];
-			v = vk - E_MLstem(ptype,-1,S[j],params);
+			v = vk - E_MLstem(ptype,-1,S[j],params)-params->MLbase;
             break;
         case 3:
 			if(params->model_details.dangles == 1){
 				k=m+1;
 				l=j-1;
 				ptype= pair[S[k]][S[l]];
-				v = vk - E_MLstem(ptype,S[m],S[j],params);
+				v = vk - E_MLstem(ptype,S[m],S[j],params)-2*params->MLbase;
 			}
             break;
     }   
@@ -871,19 +871,19 @@ void trace_WM2(auto const& seq, auto const& CL, auto const& cand_comp, auto &str
         case 1:
             k=m+1;
 			ptype= pair[S[k]][S[l]];
-			v = vk - E_MLstem(ptype,S[m],-1,params);
+			v = vk - E_MLstem(ptype,S[m],-1,params)-params->MLbase;
             break;
         case 2:
             l=j-1;
 			ptype= pair[S[k]][S[l]];
-			v = vk - E_MLstem(ptype,-1,S[j],params);
+			v = vk - E_MLstem(ptype,-1,S[j],params)-params->MLbase;
             break;
         case 3:
 			if(params->model_details.dangles == 1){
 				k=m+1;
 				l=j-1;
 				ptype= pair[S[k]][S[l]];
-				v = vk - E_MLstem(ptype,S[m],S[j],params);
+				v = vk - E_MLstem(ptype,S[m],S[j],params)-2*params->MLbase;
 			}
             break;
     }
