@@ -1204,7 +1204,8 @@ cand_pos_t capacity_of_candidates(auto const& CL_) {
 }
 std::string SparseRNAFold(std::string sequence, std::string restricted, double &energy, int dangle_mod){
 
-	
+	std::string current_file = __FILE__;
+	std::string current_dir = current_file.substr(0,current_file.length()-16);
 
 	std::string seq = sequence;
 	for(int i = 0; i<restricted.length();++i){
@@ -1219,7 +1220,7 @@ std::string SparseRNAFold(std::string sequence, std::string restricted, double &
 		exit(0);
 	}
 	// Load DP09 file
-	std::string file = "src/SparseRNAFolD/src/params/parameters_DP09_Vienna.txt";
+	std::string file = current_dir + "params/parameters_DP09_Vienna.txt";
 	vrna_params_load(file.c_str(), VRNA_PARAMETER_FORMAT_DEFAULT);
 
 	SparseMFEFold sparsemfefold(seq,true,restricted);
