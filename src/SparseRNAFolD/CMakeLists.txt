@@ -2,6 +2,8 @@ project(SparseRNAFolD)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
+
+
 set(sparseRNAfolD_SOURCE
     src/cmdline.cc
     src/SparseRNAFolD.cc

@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(USE_CLANG "build application with clang" OFF) # OFF is the default
 
 if(USE_CLANG)
-    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -std=c++17 \ -O3 \ -w")
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -std=c++17 \ -O3")
 else()
-    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -O3 \ -fconcepts \ -std=c++17 \ -w")
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -O3  \ -std=c++17 ")
 endif(USE_CLANG)
 
 

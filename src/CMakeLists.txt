@@ -6,6 +6,8 @@ project(allFold)
 include_directories("${CMAKE_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/simfold")
 
+# set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -w")
+
 
 # create simfold library
 add_subdirectory(simfold)
