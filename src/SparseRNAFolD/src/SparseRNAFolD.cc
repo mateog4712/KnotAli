@@ -20,6 +20,7 @@
 #include <cstring>
 #include <string>
 #include <cassert>
+#include <sstream>
 
 extern "C" {
 #include "ViennaRNA/pair_mat.h"
@@ -1230,10 +1231,10 @@ std::string SparseRNAFold(std::string sequence, std::string restricted, double &
 	sparsemfefold.params_->model_details.dangles = dangle_mod;
 
 	// Make replicate mx array in linear space
-	cand_pos_t last_j_array[n+1] = {0};
-	cand_pos_t in_pair_array[n+1] = {0};
-	cand_pos_t p_table[n+1] = {0};
-	cand_pos_t up_array[n+1] = {0};
+	cand_pos_t last_j_array[n+1];
+	cand_pos_t in_pair_array[n+1];
+	cand_pos_t p_table[n+1];
+	cand_pos_t up_array[n+1];
 	
 	
 	detect_restricted_pairs(restricted,p_table,last_j_array,in_pair_array);
