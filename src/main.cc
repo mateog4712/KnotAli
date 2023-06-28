@@ -189,8 +189,8 @@ int main(int argc, char *argv[]) {
     int threads;
     args_info.threads_given ? threads = numThreads : threads = 1;
 
-    std::string output_file;
-    args_info.output_file_given ? output_file = file : output_file = "results.afa";
+    std::string output_file_k;
+    args_info.output_file_given ? output_file_k = output_file : output_file_k = "results.afa";
 
     cmdline_parser_free(&args_info);
 

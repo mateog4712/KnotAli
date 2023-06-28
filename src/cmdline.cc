@@ -35,7 +35,7 @@ const char *args_info_help[] = {
 
 int numThreads;
 std::string type;
-std::string file;
+std::string output_file;
 
 
 
@@ -348,7 +348,7 @@ int cmdline_parser_internal (int argc, char **argv, struct args_info *args_info,
                 &(local_args_info.output_file_given), optarg, 0, 0, ARG_NO, 0, 0,"output-file", 'o', additional_error))
               goto failure;
 
-              file = optarg;
+              output_file = optarg;
           
           
           break;

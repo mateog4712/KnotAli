@@ -29,7 +29,7 @@ struct args_info
 } ;
 
 extern std::string type;
-extern std::string file;
+extern std::string output_file;
 extern int numThreads;
 
 /** @brief the purpose string of the program */
