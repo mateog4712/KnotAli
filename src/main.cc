@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 
-void updateVectors(auto & seqs, auto &seqs2, auto& names, auto const& input_file, auto const& input_type){
+void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &seqs2, std::vector<std::string> & names, const std::string & input_file, const std::string& input_type){
     std::string type = input_type;
     std::transform(type.begin(), type.end(), type.begin(), ::toupper);
     // Get the arguments
@@ -210,7 +210,7 @@ int main(int argc, char *argv[]) {
     int n_seq = seqs.size();
 
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
-    auto structure = MIVector(seqs,stacking);
+    std::string structure = MIVector(seqs,stacking);
 
 
     if(verbose){

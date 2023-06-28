@@ -13,9 +13,9 @@ struct Hotspot {
 
 std::string MIVector(std::vector<std::string> seqs, bool stack = false);
 
-auto const check_Pseudoknot(auto const& used, auto const& hotspot);
+bool const check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const Hotspot& hotspot);
 
-auto const APC(auto const& col_i, auto const& col_j, auto const& mean);
+double const APC(double const& col_i, double const& col_j, double const& mean);
 
 /*******************************************************************************
 ** calculateMutualInformation returns the log base LOG_BASE mutual information between
