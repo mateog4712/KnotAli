@@ -223,9 +223,7 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 //	printf ("Call_Simfold_RES( can be called by different methods): %s  %.2lf\n", output_structure, output_energy);
 	return true;
 }
-std::string sparseRNA(std::string seq, std::string str, double &en){
-    
-}
+
 // Runs iterative HFold
 std::string iterativeFold(std::string seq, std::string str, double &en){
 

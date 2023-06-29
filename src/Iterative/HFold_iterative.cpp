@@ -140,7 +140,7 @@ bool call_HFold (char *programPath, char *input_sequence, char *input_structure,
         else if (strcmp(programPath, HFOLD_PKONLY) == 0){
                 *output_energy = hfold_pkonly(input_sequence, input_structure, output_structure);
         }else{
-                printf("Error: invalid arguments are given: %s \nValid aurgumnets are: HFOLD and HFOLD_PKONLY\n");
+                printf("Error: invalid arguments are given: %s \nValid aurgumnets are: HFOLD and HFOLD_PKONLY\n",programPath);
                 return false;
          }
 	if(is_invalid_restriction(input_structure,output_structure)){
@@ -387,7 +387,7 @@ void obtainRelaxedStems(char* G1, char* G2, char* Gresult){
 	int G2_pair[length];
 
 	//Gresult <- G1
-	strncpy(Gresult,G1,length);
+	strcpy(Gresult,G1);
 
 	detect_original_pairs(G1, G1_pair);
 	detect_original_pairs(G2, G2_pair);
