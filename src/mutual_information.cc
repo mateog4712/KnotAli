@@ -49,8 +49,8 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   int n = seqs[0].length();
   
 
-
-  uint cols[n_seq*n];
+  std::vector<uint> cols;
+  cols.resize(n_seq*n,0);
   // Find the columns for the list of seqs
   for(int i = 0; i<n;++i){
     
@@ -62,9 +62,12 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   }
 
 
-  double column_max[n];
-  double column_sum[n];
-  double cnt[n];
+  std::vector<double> column_max;
+  column_max.resize(n,0);
+  std::vector<double> column_sum;
+  column_sum.resize(n,0);
+  std::vector<double> cnt;
+  cnt.resize(n,0);
   double sum = 0;
   int count = 0;
 
