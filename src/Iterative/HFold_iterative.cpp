@@ -499,7 +499,9 @@ double method3(char *sequence, char *restricted, char *structure){
 	//^ G' simfold_structure <- SimFold(S sequence, G restricted)
 	char G_updated[length+1];
 	G_updated[length] = '\0';
+	// std::cout << "restricted is: " << restricted << std::endl;
 	obtainRelaxedStems(restricted ,simfold_structure, G_updated);
+	// printf("the structure is: %s\n",G_updated);
 	//^Gupdated G_updated<- ObtainRelaxedStems(G restricted,G' simfold_structure)
 	energy = method2(sequence, G_updated, structure);
 

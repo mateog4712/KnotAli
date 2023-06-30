@@ -173,7 +173,7 @@ bool validateInteractingInputFile(char* path, char* seq1, char* struc1, char* se
         printf("File not found\n");
         return false;
     }
-    fscanf(fp,"%s\n%s\n%s\n%s",seq1,struc1,seq2,struc2);
+    int scan = fscanf(fp,"%s\n%s\n%s\n%s",seq1,struc1,seq2,struc2);
     //printf("%s|%s|%s|%s|\n",seq1,struc1,seq2,struc2);
     fclose(fp);
 
@@ -218,7 +218,7 @@ bool validateHFOLDInputFile(char* path, char* seq1, char* struc1){
         printf("File not found\n");
         return false;
     }
-    fscanf(fp,"%s\n%s\n",seq1,struc1);
+    int scan = fscanf(fp,"%s\n%s\n",seq1,struc1);
     
     fclose(fp);
 

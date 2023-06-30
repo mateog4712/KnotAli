@@ -678,44 +678,44 @@ void h_fill_data_structures_with_new_parameters (char *filename){
 	{
 	    giveup ("Cannot open file", filename);
 	}
-
+	
 	// PS_penalty: exterior pseudoloop initiation penalty (originally 9.6 Kcal/mol)
-	fgets (buffer, sizeof(buffer), file);
+	char* PS = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
     param *= 100;
     PS_penalty = (int) param;
 
 	//PSM_penalty: penalty for introducing pseudoknot inside a multiloop (originally 15 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* PSM = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     PSM_penalty = (int) param;
 
 	//PSP_penalty: penalty for introducing pseudoknot inside a pseudoloop (originally 15 Kcal/mol)
-	fgets (buffer, sizeof(buffer), file);
+	char* PSP = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     PSP_penalty = (int) param;
 
 	//PB_penalty: band penalty (originally 0.2 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* PB = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     PB_penalty = (int) param;
 
 	//PUP_penalty: penalty for an un-paired base in a pseudoloop or a band (originally 0.1 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* PUP = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     PUP_penalty = (int) param;
 
 	//PPS_penalty: penalty for nested closed region inside either a pseudoloop or a multiloop that spans a band(originally 0.1 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* PPS = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
@@ -723,14 +723,14 @@ void h_fill_data_structures_with_new_parameters (char *filename){
 
 
 	//a_penalty: penalty for introducing a multiloop (originally 3.4 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* a = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     a_penalty = (int) param;
 
 	//b_penalty: penalty for base pair in a multiloop (originally 0.4 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* b = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
@@ -738,7 +738,7 @@ void h_fill_data_structures_with_new_parameters (char *filename){
 
 
 	//c_penalty: penalty for un-paired base in a multi-loop (originally 0)
-    fgets (buffer, sizeof(buffer), file);
+    char* c = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
     param *= 100;
@@ -747,28 +747,28 @@ void h_fill_data_structures_with_new_parameters (char *filename){
 
 
 	// e_stP = 0.83 * e_s
-    fgets (buffer, sizeof(buffer), file);
+    char* estp = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
     e_stP_penalty = param;
 
 
 	// e_intP = 0.83 * e_int
-    fgets (buffer, sizeof(buffer), file);
+    char* eintp = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
     e_intP_penalty = param;
 
 
 	//ap_penalty: penalty for introducing a multiloop that spans a band (originally 3.4 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* ap = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
     ap_penalty = (int) param;
 
 	//bp_penalty: base pair penalty for a multiloop that spans a band (originally 0.4 Kcal/mol)
-    fgets (buffer, sizeof(buffer), file);
+    char* bp = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;
@@ -776,7 +776,7 @@ void h_fill_data_structures_with_new_parameters (char *filename){
 
 
 	//cp_penalty: penalty for unpaired base in a multiloop that spans a band (originally 0)
-    fgets (buffer, sizeof(buffer), file);
+    char* cp = fgets (buffer, sizeof(buffer), file);
 	line++;
 	sscanf (buffer, "%lf", &param);
 	param *= 100;

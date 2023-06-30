@@ -219,11 +219,19 @@ int main(int argc, char *argv[]) {
     }
     
     // The output file
-    std::ofstream out(output_file, std::ofstream::trunc);
+    std::ofstream out(output_file_k, std::ofstream::trunc);
     std::string final;
     for(int i=0; i<n_seq; ++i){
     
-        std::string consensusCh = returnUngapped(seqs[i],structure);  
+        std::string consensusCh = returnUngapped(seqs[i],structure);
+        std::cout << i << std::endl; 
+        // int count = 0;
+        // for(int k = 0;k<consensusCh.length();k++){
+        //     if(consensusCh[k] == '(') count++;
+        //     if(consensusCh[k] == ')') count--;
+        // }
+        // if(count!=0) std::cout << count << std::endl;
+        // std::cout << seqs2[i] << "\n" << consensusCh << std::endl;
         double energy;
         // run it with pseudoknots or without
         if(pseudoknot)

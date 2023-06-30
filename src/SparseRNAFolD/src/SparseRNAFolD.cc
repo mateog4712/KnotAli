@@ -940,7 +940,7 @@ void register_candidate(std::vector<cand_list_t> &CL, cand_pos_t const& i, cand_
  * @return whether i and j can be non INF 
  */
 bool evaluate_restriction(cand_pos_t i, cand_pos_t j, const std::vector<cand_pos_t>& last_j_array, const std::vector<cand_pos_t>& in_pair_array){
-	int evaluate = 1;
+	bool evaluate = 1;
 	// if(in_pair_array[i]>in_pair_array[j]) evaluate = 0;
 	evaluate &= ~(in_pair_array[i]>in_pair_array[j]);
 	// if(in_pair_array[i]<in_pair_array[j]) evaluate = 0;
@@ -948,7 +948,7 @@ bool evaluate_restriction(cand_pos_t i, cand_pos_t j, const std::vector<cand_pos
 	// if(in_pair_array[i]==in_pair_array[j]) if(j>last_j_array[i]) evaluate = 0
 	evaluate &= ((in_pair_array[i]==in_pair_array[j]) & ~(j>last_j_array[i]));
 	
-	return (bool) evaluate;
+	return evaluate;
 }
 
 /**

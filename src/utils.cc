@@ -224,11 +224,9 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 	return true;
 }
 
-// Runs iterative HFold
 std::string iterativeFold(std::string seq, std::string str, double &en){
 
     void *res;
-
     char sequence[seq.length()+1];
     char structure[str.length()+1];
     strcpy(sequence, seq.c_str());
