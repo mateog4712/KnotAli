@@ -77,8 +77,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   for(int i = 0; i<n;++i){
     for(int j = 0;(i+j)<n && j<2000;++j){
         
-      double score;
-      score = calcMutualInformation(&cols[i*n_seq],&cols[(i+j)*n_seq], n_seq);
+      double score = calcMutualInformation(&cols[i*n_seq],&cols[(i+j)*n_seq], n_seq);
       sum+=score;
       ++count;
       column_max[i] =std::max(column_max[i],score);
@@ -149,16 +148,14 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
 
 double mi(JointProbabilityState state) {
   double mutualInformation = 0.0;
-  int firstIndex,secondIndex;
-  int i;
   /*
   ** I(X;Y) = \sum_x \sum_y p(x,y) * \log (p(x,y)/p(x)p(y))
   */
-  for (i = 0; i < state.numJointStates; i++) {
+  for (int i = 0; i < state.numJointStates; i++) {
     if(i == 9 || i== 13 || i== 17 || i==19 || i==21 || i== 23){
     
-      firstIndex = i % state.numFirstStates;
-      secondIndex = i / state.numFirstStates;
+      int firstIndex = i % state.numFirstStates;
+      int secondIndex = i / state.numFirstStates;
 
     
       if ((state.jointProbabilityVector[i] > 0) && (state.firstProbabilityVector[firstIndex] > 0) && (state.secondProbabilityVector[secondIndex] > 0)) {

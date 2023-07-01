@@ -5,9 +5,8 @@
 
 
 int maxState(uint *vector, int vectorLength) {
-    int i, max;
-    max = 0;
-    for (i = 0; i < vectorLength; i++) {
+    int max = 0;
+    for (int i = 0; i < vectorLength; i++) {
         if (vector[i] > max) {
             max = vector[i];
         }
@@ -24,18 +23,15 @@ int maxState(uint *vector, int vectorLength) {
  ** is a memory leak
  *******************************************************************************/
 int normaliseArray(double *inputVector, uint *outputVector, int vectorLength) {
-    int minVal = 0;
     int maxVal = 0;
-    int currentValue;
-    int i;
 
     if (vectorLength > 0) {
         int* tempVector = (int*) calloc(vectorLength,sizeof(int));
-        minVal = (int) floor(inputVector[0]);
+        int minVal = (int) floor(inputVector[0]);
         maxVal = (int) floor(inputVector[0]);
 
-        for (i = 0; i < vectorLength; i++) {
-            currentValue = (int) floor(inputVector[i]);
+        for (int i = 0; i < vectorLength; i++) {
+            int currentValue = (int) floor(inputVector[i]);
             tempVector[i] = currentValue;
 
             if (currentValue < minVal) {
@@ -45,7 +41,7 @@ int normaliseArray(double *inputVector, uint *outputVector, int vectorLength) {
             }
         }/*for loop over vector*/
 
-        for (i = 0; i < vectorLength; i++) {
+        for (int i = 0; i < vectorLength; i++) {
             outputVector[i] = tempVector[i] - minVal;
         }
 

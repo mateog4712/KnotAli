@@ -224,7 +224,8 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
-
+        std::cout << seqs2[i] << std::endl;
+        std::cout << consensusCh << std::endl;
         double energy;
         // run it with pseudoknots or without
         if(pseudoknot)

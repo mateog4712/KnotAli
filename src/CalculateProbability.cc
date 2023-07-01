@@ -7,50 +7,39 @@
 
 JointProbabilityState calculateJointProbability(uint *firstVector, uint *secondVector, int vectorLength) {
 
-  int *firstStateCounts;
-  int *secondStateCounts;
-  int *jointStateCounts;
-  double *firstStateProbs;
-  double *secondStateProbs;
-  double *jointStateProbs;
-  int firstNumStates;
-  int secondNumStates;
-  int jointNumStates;
-  int i;
-  double length = vectorLength;
-  JointProbabilityState state;
-
-  firstNumStates = maxState(firstVector,vectorLength);
-  secondNumStates = maxState(secondVector,vectorLength);
-  jointNumStates = firstNumStates * secondNumStates;
+  int firstNumStates = maxState(firstVector,vectorLength);
+  int  secondNumStates = maxState(secondVector,vectorLength);
+  int jointNumStates = firstNumStates * secondNumStates;
   
-  firstStateCounts = (int *) calloc(firstNumStates,sizeof(int));
-  secondStateCounts = (int *) calloc(secondNumStates,sizeof(int));
-  jointStateCounts = (int *) calloc(jointNumStates,sizeof(int));
+  int *firstStateCounts = (int *) calloc(firstNumStates,sizeof(int));
+  int *secondStateCounts = (int *) calloc(secondNumStates,sizeof(int));
+  int *jointStateCounts = (int *) calloc(jointNumStates,sizeof(int));
   
-  firstStateProbs = (double *) calloc(firstNumStates,sizeof(double));
-  secondStateProbs = (double *) calloc(secondNumStates,sizeof(double));
-  jointStateProbs = (double *) calloc(jointNumStates,sizeof(double));
+  double *firstStateProbs = (double *) calloc(firstNumStates,sizeof(double));
+  double *secondStateProbs = (double *) calloc(secondNumStates,sizeof(double));
+  double *jointStateProbs = (double *) calloc(jointNumStates,sizeof(double));
     
   /* Optimised for number of FP operations now O(states) instead of O(vectorLength) */
-  for (i = 0; i < vectorLength; i++) {
+  for (int i = 0; i < vectorLength; ++i) {
     firstStateCounts[firstVector[i]] += 1;
     secondStateCounts[secondVector[i]] += 1;
     jointStateCounts[secondVector[i] * firstNumStates + firstVector[i]] += 1;
   }
   
-  for (i = 0; i < firstNumStates; i++) {
+  double length = vectorLength;
+  for (int i = 0; i < firstNumStates; ++i) {
     firstStateProbs[i] = firstStateCounts[i] / length;
   }
   
-  for (i = 0; i < secondNumStates; i++) {
+  for (int i = 0; i < secondNumStates; i++) {
     secondStateProbs[i] = secondStateCounts[i] / length;
   }
   
-  for (i = 0; i < jointNumStates; i++) {
+  for (int i = 0; i < jointNumStates; i++) {
     jointStateProbs[i] = jointStateCounts[i] / length;
   }
   
+  JointProbabilityState state;
   state.jointProbabilityVector = jointStateProbs;
   state.numJointStates = jointNumStates;
   state.firstProbabilityVector = firstStateProbs;
@@ -86,30 +75,26 @@ JointProbabilityState discAndCalcJointProbability(double *firstVector, double *s
 
 
 ProbabilityState calculateProbability(uint *dataVector, int vectorLength) {
-  int numStates;
-  int *stateCounts;
-  double *stateProbs;
-  ProbabilityState state;
-  int i;
-  double length = vectorLength;
 
-  numStates = maxState(dataVector,vectorLength);
+  int numStates = maxState(dataVector,vectorLength);
   
-  stateCounts = (int *) calloc(numStates,sizeof(int));
-  stateProbs = (double *) calloc(numStates,sizeof(double));
+  int *stateCounts = (int *) calloc(numStates,sizeof(int));
+  double *stateProbs = (double *) calloc(numStates,sizeof(double));
   
   /* Optimised for number of FP operations now O(states) instead of O(vectorLength) */
-  for (i = 0; i < vectorLength; i++) {
+  for (int i = 0; i < vectorLength; i++) {
     stateCounts[dataVector[i]] += 1;
   }
   
-  for (i = 0; i < numStates; i++) {
+  double length = vectorLength;
+  for (int i = 0; i < numStates; i++) {
     stateProbs[i] = stateCounts[i] / length;
   }
   
   free(stateCounts);
   stateCounts = NULL;
   
+  ProbabilityState state;
   state.probabilityVector = stateProbs;
   state.numStates = numStates;
 
