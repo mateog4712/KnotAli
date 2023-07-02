@@ -14,13 +14,14 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \ -O2")
 add_subdirectory(simfold)
 add_subdirectory(SparseRNAFolD)
 
+
 set(iterative_SOURCE
-    Iterative/W_final.cpp 
-    Iterative/pseudo_loop.cpp 
-    Iterative/V_final.cpp 
-    Iterative/VM_final.cpp 
-    Iterative/h_common.cpp 
-    Iterative/hfold_validation.cpp 
+    HFold/W_final.cpp 
+    HFold/pseudo_loop.cpp 
+    HFold/V_final.cpp 
+    HFold/VM_final.cpp 
+    HFold/h_common.cpp 
+    HFold/hfold_validation.cpp 
 )
 
 set(KnotAli_SOURCE

@@ -1,7 +1,7 @@
 #include "mutual_information.hh"
 #include "utils.hh"
 #include "cmdline.hh"
-#include "SparseRNAFolD/src/SparseRNAFolD.hh"
+#include "src/SparseRNAFolD/src/SparseRNAFolD.hh"
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -224,9 +224,7 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
-        std::cout << seqs2[i] << std::endl;
-        std::cout << consensusCh << std::endl;
-        double energy;
+        double energy = 10000;
         // run it with pseudoknots or without
         if(pseudoknot)
         final = iterativeFold(seqs2[i],consensusCh, energy);

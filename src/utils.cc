@@ -1,5 +1,5 @@
 #include "utils.hh"
-#include "Iterative/HFold_iterative.cpp"
+#include "HFold/HFold_iterative.cpp"
 #include <sys/stat.h>
 #include <iostream>
 #include <string>
@@ -226,23 +226,33 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 
 std::string iterativeFold(std::string seq, std::string str, double &en){
 
-    void *res;
-    char sequence[seq.length()+1];
-    char structure[str.length()+1];
+    int length = seq.length();
+    char sequence[length+1];
+    char structure[length+1];
     strcpy(sequence, seq.c_str());
     strcpy(structure, str.c_str());
 
-    char *output_path;
-    char *method1_structure = (char*) malloc(sizeof(char) * MAXSLEN);
-    char *method2_structure = (char*) malloc(sizeof(char) * MAXSLEN);
-    char *method3_structure = (char*) malloc(sizeof(char) * MAXSLEN);
-    char *method4_structure = (char*) malloc(sizeof(char) * MAXSLEN);
-    char final_structure[MAXSLEN];
+    if(!validateSequence(sequence)){
+		fprintf(stderr,"-s sequence is invalid. sequence: %s\n",sequence);
+		exit(1);
+	}
 
-    double *method1_energy = (double*) malloc(sizeof(double) * INF);
-    double *method2_energy = (double*) malloc(sizeof(double) * INF);
-    double *method3_energy = (double*) malloc(sizeof(double) * INF);
-    double *method4_energy = (double*) malloc(sizeof(double) * INF);
+	if(!validateStructure(structure, sequence)){
+		fprintf(stderr, "-r is invalid\n");
+		exit(1);
+	}
+
+
+    char *method1_structure = (char*) malloc(sizeof(char) * length);
+    char *method2_structure = (char*) malloc(sizeof(char) * length);
+    char *method3_structure = (char*) malloc(sizeof(char) * length);
+    char *method4_structure = (char*) malloc(sizeof(char) * length);
+    char final_structure[length];
+
+    double *method1_energy = (double*) malloc(sizeof(double));
+    double *method2_energy = (double*) malloc(sizeof(double));
+    double *method3_energy = (double*) malloc(sizeof(double));
+    double *method4_energy = (double*) malloc(sizeof(double));
     double final_energy = INF;
     int method_chosen = -1;
 
@@ -251,32 +261,10 @@ std::string iterativeFold(std::string seq, std::string str, double &en){
     *method3_energy = INF;
     *method4_energy = INF;
 
-    method1_structure[0] = '\0';
-    method2_structure[0] = '\0';
-    method3_structure[0] = '\0';
-    method4_structure[0] = '\0';
-    final_structure[0] = '\0';
-
-    //printf("method1\n");
     *method1_energy = method1(sequence, structure, method1_structure);
-    //printf("method2\n");
-    *method2_energy = method2(sequence, structure, method2_structure);
-    //printf("method3\n");
-    
-
+    *method2_energy = method2(sequence, structure, method2_structure);    
     *method3_energy = method3(sequence, structure, method3_structure);
-    //printf("method4\n");
     *method4_energy = method4(sequence, structure, method4_structure);
-  
-  
-  //double energy = 0;
-	//int length = strlen(sequence);
-	//char simfold_structure[length];
-  //char restricted[length];
-  //strcpy(restricted,structure);
-  //call_simfold(SIMFOLD, sequence, restricted, simfold_structure, &energy);
-  
-
 
     //We ignore non-negetive energy, only if the energy of the input sequnces are non-positive!
     if (*method1_energy < final_energy) {
