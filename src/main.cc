@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define INF 100000
+
 
 void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &seqs2, std::vector<std::string> & names, const std::string & input_file, const std::string& input_type){
     std::string type = input_type;
@@ -224,7 +226,7 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
-        double energy = 10000;
+        double energy = INF;
         // run it with pseudoknots or without
         if(pseudoknot)
         final = iterativeFold(seqs2[i],consensusCh, energy);

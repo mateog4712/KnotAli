@@ -227,6 +227,7 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 std::string iterativeFold(std::string seq, std::string str, double &en){
 
     int length = seq.length();
+    int lengthp1 = length+1;
     char sequence[length+1];
     char structure[length+1];
     strcpy(sequence, seq.c_str());
@@ -243,11 +244,11 @@ std::string iterativeFold(std::string seq, std::string str, double &en){
 	}
 
 
-    char *method1_structure = (char*) malloc(sizeof(char) * length);
-    char *method2_structure = (char*) malloc(sizeof(char) * length);
-    char *method3_structure = (char*) malloc(sizeof(char) * length);
-    char *method4_structure = (char*) malloc(sizeof(char) * length);
-    char final_structure[length];
+    char *method1_structure = (char*) malloc(sizeof(char) * lengthp1);
+    char *method2_structure = (char*) malloc(sizeof(char) * lengthp1);
+    char *method3_structure = (char*) malloc(sizeof(char) * lengthp1);
+    char *method4_structure = (char*) malloc(sizeof(char) * lengthp1);
+    char final_structure[lengthp1];
 
     double *method1_energy = (double*) malloc(sizeof(double));
     double *method2_energy = (double*) malloc(sizeof(double));
