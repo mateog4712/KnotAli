@@ -42,8 +42,6 @@ char* replaceChar(char *stri, char ch1, char ch2) {
 std::string returnUngapped(std::string input_sequence, std::string consensus_structure){
     int length = consensus_structure.length();
 
-    int sublength=0;
-    int j = length;
     std::vector<std::tuple<char,int> > paren;
     std::vector<std::tuple<char,int> > sb;
     std::vector<std::tuple<char,int> > cb;
@@ -69,23 +67,23 @@ std::string returnUngapped(std::string input_sequence, std::string consensus_str
         bool close = false;
         if (consensus_structure[i] == ')' && !paren.empty()){
             x = paren[paren.size()-1];
-            paren.erase(paren.end());
+            paren.erase(paren.begin()+(paren.size()-1));
             close = true;
 
         }
         else if (consensus_structure[i] == '>' && !lts.empty()){
             x = lts[lts.size()-1];
-            lts.erase(lts.end());
+            lts.erase(lts.begin()+(lts.size()-1));
             close = true;
         }
         else if (consensus_structure[i] == ']' && !sb.empty()){
             x = sb[sb.size()-1];
-            sb.erase(sb.end());
+            sb.erase(sb.begin()+(sb.size()-1));
             close = true;
         }
         else if (consensus_structure[i] == '}' && !cb.empty()){
             x = cb[cb.size()-1];
-            cb.erase(cb.end());
+            cb.erase(cb.begin()+(cb.size()-1));
             close = true;
         }
             
@@ -143,23 +141,23 @@ std::string returnUngapped(std::string input_sequence, std::string consensus_str
         bool close = false;
         if (consensus_structure[i] == ')' && !paren.empty()){
             x = paren[paren.size()-1];
-            paren.erase(paren.end());
+            paren.erase(paren.begin()+(paren.size()-1));
             close = true;
 
         }
         else if (consensus_structure[i] == '>' && !lts.empty()){
             x = lts[lts.size()-1];
-            lts.erase(lts.end());
+            lts.erase(lts.begin()+(lts.size()-1));
             close = true;
         }
         else if (consensus_structure[i] == ']' && !sb.empty()){
             x = sb[sb.size()-1];
-            sb.erase(sb.end());
+            sb.erase(sb.begin()+(sb.size()-1));
             close = true;
         }
         else if (consensus_structure[i] == '}' && !cb.empty()){
             x = cb[cb.size()-1];
-            cb.erase(cb.end());
+            cb.erase(cb.begin()+(cb.size()-1));
             close = true;
         }
             
