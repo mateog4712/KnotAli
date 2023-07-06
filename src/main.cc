@@ -214,7 +214,6 @@ int main(int argc, char *argv[]) {
     // Uses covariation/ Mutual Information to find probable structurally important base pairs
     std::string structure = MIVector(seqs,stacking);
 
-
     if(verbose){
       printf ("\t The number of sequences are %d\n", n_seq);
       printf ("\t The structure found through covariation of the alignment is: \n\n%s\n", structure.c_str());  

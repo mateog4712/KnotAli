@@ -15,12 +15,6 @@ bool exists (const std::string& name) {
   return (stat (name.c_str(), &buffer) == 0); 
 }
 
-
-bool canPair(int n){
-    if(n == 9 || n == 13 || n == 17 || n == 19 || n == 21 || n == 23) return true;
-    return false;
-}
-
 /** This functions takes a string and two chars. If char1 appears, it is replaced with char2**/
 char* replaceChar(char *stri, char ch1, char ch2) {
     std::string seq(stri);
@@ -175,6 +169,8 @@ return consensus_structure;
 }
 bool canMatch(char x, char y){
 
+x = toupper(x);
+y = toupper(y);
 if((x == 'A' && y == 'T') || (x == 'T' && y == 'A')) {return true;}
 else if((x == 'C' && y == 'G') || (x == 'G' && y == 'C')) {return true;}
 else if((x == 'A' && y == 'U') || (x == 'G' && y == 'U') || (x == 'U' && y == 'G') || (x == 'U' && y == 'A')) {return true;}

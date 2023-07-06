@@ -17,6 +17,4 @@ bool call_simfold3 (char *programPath, char *input_sequence, char *output_struct
 
 std::string iterativeFold(std::string seq, std::string str, double &en);
 
-bool canPair(int n);
-
 #endif

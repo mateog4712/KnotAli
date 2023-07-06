@@ -41,6 +41,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   base['C']=2;
   base['G']=3;
   base['U']=4;
+  base['T']=5;
 
 
 
@@ -65,7 +66,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
     
     for(int j = 0;j<n_seq;++j){
 
-      cols[i*n_seq+j] = base[seqs[j][i]];
+      cols[i*n_seq+j] = base[toupper(seqs[j][i])];
 
     }
   }
@@ -152,7 +153,7 @@ double mi(JointProbabilityState state) {
   ** I(X;Y) = \sum_x \sum_y p(x,y) * \log (p(x,y)/p(x)p(y))
   */
   for (int i = 0; i < state.numJointStates; i++) {
-    if(i == 9 || i== 13 || i== 17 || i==19 || i==21 || i== 23){
+    if(i == 10 || i==11 || i== 15 || i== 10 || i==22 || i==25 || i== 27 || i==31){
     
       int firstIndex = i % state.numFirstStates;
       int secondIndex = i / state.numFirstStates;
