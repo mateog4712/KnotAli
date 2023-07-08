@@ -32,6 +32,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
             } 
             
             if(newSeq == true) {
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
                 std::string str2 = str;
                 for(int j=str2.length()-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
@@ -42,7 +44,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 newSeq = false;
             }
             else{
-               std::string str2 = str;
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+                std::string str2 = str;
                 for(int j=str2.length()-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
                 }
@@ -81,6 +84,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 names.push_back(str);
                 ss >> str;
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs.push_back(str);
                 for(int j=str.length()-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
@@ -92,6 +96,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 std::istringstream ss(str);
                 ss >> str;
                 ss >> str;
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs[i] = seqs[i] + str;
                 for(int j=str.length()-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
@@ -126,6 +131,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 names.push_back(str);
                 ss >> str;
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs.push_back(str);
                 for(int j=str.length()-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
@@ -137,6 +143,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 std::istringstream ss(str);
                 ss >> str;
                 ss >> str;
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs[i] = seqs[i] + str;
                 for(int j=str.length()-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
@@ -152,7 +159,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
         exit (EXIT_FAILURE);
     }
     int length = seqs[0].length();
-    for(int i=1;i<seqs.size();++i){
+    for(int i=0;i<seqs.size();++i){
         if (seqs[i].length() != length){
             std::cout << "All sequences must be the same length in the alignment" << std::endl;
             exit(0);
@@ -200,6 +207,8 @@ int main(int argc, char *argv[]) {
         std::cout << "Input File does not exist!" << std::endl;
         exit (EXIT_FAILURE);
     }
+
+
 
     // Define the data structures for the sequences
     std::vector <std::string> seqs;

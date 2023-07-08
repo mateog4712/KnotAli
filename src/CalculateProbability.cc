@@ -7,8 +7,8 @@
 
 JointProbabilityState calculateJointProbability(uint *firstVector, uint *secondVector, int vectorLength) {
 
-  int firstNumStates = maxState(firstVector,vectorLength);
-  int  secondNumStates = maxState(secondVector,vectorLength);
+  int firstNumStates = 6;
+  int  secondNumStates = 6;
   int jointNumStates = firstNumStates * secondNumStates;
   
   int *firstStateCounts = (int *) calloc(firstNumStates,sizeof(int));

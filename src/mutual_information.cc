@@ -66,7 +66,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
     
     for(int j = 0;j<n_seq;++j){
 
-      cols[i*n_seq+j] = base[toupper(seqs[j][i])];
+      cols[i*n_seq+j] = base[seqs[j][i]];
 
     }
   }
@@ -152,6 +152,7 @@ double mi(JointProbabilityState state) {
   /*
   ** I(X;Y) = \sum_x \sum_y p(x,y) * \log (p(x,y)/p(x)p(y))
   */
+  
   for (int i = 0; i < state.numJointStates; i++) {
     if(i == 10 || i==11 || i== 15 || i== 10 || i==22 || i==25 || i== 27 || i==31){
     

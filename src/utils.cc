@@ -169,8 +169,6 @@ return consensus_structure;
 }
 bool canMatch(char x, char y){
 
-x = toupper(x);
-y = toupper(y);
 if((x == 'A' && y == 'T') || (x == 'T' && y == 'A')) {return true;}
 else if((x == 'C' && y == 'G') || (x == 'G' && y == 'C')) {return true;}
 else if((x == 'A' && y == 'U') || (x == 'G' && y == 'U') || (x == 'U' && y == 'G') || (x == 'U' && y == 'A')) {return true;}
