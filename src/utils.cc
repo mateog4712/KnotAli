@@ -9,6 +9,25 @@
 #include <vector>
 #include <tuple>
 
+std::string removeIUPAC(std::string sequence){
+    int n = sequence.length();
+    for(int i = 0; i<n; ++i){
+        if(sequence[i] == 'R') sequence[i] = 'G';
+        else if(sequence[i] == 'Y') sequence[i] = 'C';
+        else if (sequence[i] == 'S') sequence[i] = 'G';
+        else if (sequence[i] == 'W') sequence[i] = 'A';
+        else if (sequence[i] == 'K') sequence[i] = 'T';
+        else if (sequence[i] == 'M') sequence[i] = 'A';
+        else if (sequence[i] == 'B') sequence[i] = 'C';
+        else if (sequence[i] == 'D') sequence[i] = 'T';
+        else if (sequence[i] == 'H') sequence[i] = 'A';
+        else if (sequence[i] == 'V') sequence[i] = 'G';
+        else if (sequence[i] == 'N') sequence[i] = 'A';
+
+    }
+    return sequence;
+}
+
 
 bool exists (const std::string& name) {
   struct stat buffer;   

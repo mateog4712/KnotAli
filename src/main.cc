@@ -234,12 +234,13 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n_seq; ++i){
     
         std::string consensusCh = returnUngapped(seqs[i],structure);
+        std::string seq = removeIUPAC(seqs2[i]);
         double energy = INF;
         // run it with pseudoknots or without
         if(pseudoknot)
-        final = iterativeFold(seqs2[i],consensusCh, energy);
+        final = iterativeFold(seq,consensusCh, energy);
         else
-        final = SparseRNAFold(seqs2[i],consensusCh, energy,1);
+        final = SparseRNAFold(seq,consensusCh, energy,1);
         // run it without pseudoknots
     
         // makes sure name is in correct format

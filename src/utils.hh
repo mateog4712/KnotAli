@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+std::string removeIUPAC(std::string sequence);
+
 char* replaceChar(char *str, char ch1, char ch2);
 
 bool exists (const std::string& name);

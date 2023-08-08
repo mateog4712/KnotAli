@@ -37,12 +37,11 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   // Make a map to easily index bases
   std::map<char,uint> base;
   base['-']=0;
-  base['A']=1;
-  base['C']=2;
-  base['G']=3;
+  base['A'] = base['W'] = base['M'] = base['H'] = base['N'] = 1;
+  base['C'] = base['Y'] = base['B'] = 2;
+  base['G'] = base['R'] = base['S'] = base['V'] = 3;
   base['U']=4;
-  base['T']=5;
-
+  base['T'] = base['K'] = base['D'] = 5;
 
 
   // For easier naming
