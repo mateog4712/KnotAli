@@ -28,7 +28,7 @@ return (col_i*col_j)/mean;
 
 }
 
-std::string MIVector(std::vector<std::string> seqs, bool stack){
+std::string MIVector(std::vector<std::string> &seqs){
   
 
   // Initialize our vector of pairs with score > mean
@@ -110,7 +110,7 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   std::sort(hotspots.begin(), hotspots.end(), [](auto const &a, auto const &b) { return a.score > b.score; });
 
   // a string of unpaired bases
-  std::string structure(n, '_');
+  std::string structure(n, '.');
 
   // vector of pairs that have been used
   std::vector<std::tuple<int,int> > used;
@@ -118,9 +118,9 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   // Go through each hotspot pair and change the structure accordingly
   for(int i = 0; i<hotspots.size();++i){
     // If pair wont work due to previous pair
-    if(structure[std::get<0>(hotspots[i].pair)] != '_' || structure[std::get<1>(hotspots[i].pair)] != '_') continue;
+    if(structure[std::get<0>(hotspots[i].pair)] != '.' || structure[std::get<1>(hotspots[i].pair)] != '.') continue;
 
-    // checks for pseudknots
+    // checks for pseudoknots
     bool pseudoknot = check_Pseudoknot(used,hotspots[i]);
     if(!pseudoknot){
       // Replaces blank structure based on pairs
@@ -132,8 +132,8 @@ std::string MIVector(std::vector<std::string> seqs, bool stack){
   }
   int infoLoss=0;
   for(int i = 0; i<n; ++i){
-    if(structure[i] == '_' && column_max[i] < mean){
-      structure[i] = '.';
+    if(structure[i] == '.' && column_max[i] < mean){
+      structure[i] = 'x';
       infoLoss++;
     }
   }

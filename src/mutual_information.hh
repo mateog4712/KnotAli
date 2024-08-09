@@ -11,7 +11,7 @@ struct Hotspot {
     double score;
 };
 
-std::string MIVector(std::vector<std::string> seqs, bool stack = false);
+std::string MIVector(std::vector<std::string> &seqs);
 
 bool const check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const Hotspot& hotspot);
 

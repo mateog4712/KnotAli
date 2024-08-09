@@ -2,6 +2,13 @@
 #define CMDLINE_H
 #include <string>
 
+extern std::string type;
+extern std::string output_file;
+// Number for dangle model
+extern int dangle_model;
+
+// The parameter file location
+extern std::string parameter_file;
 
 /** @brief Where the command line options are stored */
 struct args_info
@@ -11,26 +18,22 @@ struct args_info
   const char *verbose_help; /**< @brief Turn on verbose output help description.  */
   const char *input_type_help; /**< @brief Give input file type help description.  */
   const char *output_file_help; /**< @brief Give output file help description.  */
-  const char *stacking_help; /**< @brief Give stacking help description.  */
-  const char *threads_help; /**< @brief Give threads help description.  */
-  const char *pseudoknot_help; /**< @brief Give pseudoknot help description.  */
+  // const char *stacking_help; /**< @brief Give stacking help description.  */
+  const char *dangles_help; /**< @brief Specify the dangle model*/
+  const char *paramFile_help; /**< @brief Use a separate parameter list */
   
   unsigned int help_given ;	/**< @brief Whether help was given.  */
   unsigned int version_given ;	/**< @brief Whether version was given.  */
   unsigned int verbose_given ;	/**< @brief Whether verbose was given.  */
   unsigned int input_type_given ;	/**< @brief Whether input file was given.  */
   unsigned int output_file_given ;	/**< @brief Whether output file was given.  */
-  unsigned int stacking_given ;	/**< @brief Whether stacking was given.  */
-  unsigned int threads_given ;	/**< @brief Whether threads was given.  */
-  unsigned int pseudoknot_given ; /**< @brief Whether pseudoknot was given.  */
+  // unsigned int stacking_given ;	/**< @brief Whether stacking was given.  */
+  unsigned int dangles_given ;  /**< @brief Whether dangle model was given.  */
+  unsigned int paramFile_given ; /** <@brief whether a parameter file was given */
 
   char **inputs ; /**< @brief unnamed options (options without names) */
   unsigned inputs_num ; /**< @brief unnamed options number */
 } ;
-
-extern std::string type;
-extern std::string output_file;
-extern int numThreads;
 
 /** @brief the purpose string of the program */
 extern const char *gengetopt_args_info_purpose;

@@ -1,5 +1,4 @@
 #include "utils.hh"
-#include "HFold/HFold_iterative.cpp"
 #include <sys/stat.h>
 #include <iostream>
 #include <string>
@@ -108,15 +107,15 @@ std::string returnUngapped(std::string input_sequence, std::string consensus_str
             }
             else{
                 if(input_sequence[i] == '-'){
-                    consensus_structure[std::get<1>(x)] = '_';
+                    consensus_structure[std::get<1>(x)] = '.';
                     continue;
                 }else if(input_sequence[std::get<1>(x)] == '-'){
-                    consensus_structure[i] = '_';
+                    consensus_structure[i] = '.';
                     continue;   
                 }
                 else{
-                    consensus_structure[i] = '_';
-                    consensus_structure[std::get<1>(x)] = '_';
+                    consensus_structure[i] = '.';
+                    consensus_structure[std::get<1>(x)] = '.';
                     continue;
                 }
             }
@@ -176,8 +175,8 @@ std::string returnUngapped(std::string input_sequence, std::string consensus_str
             
         if(close){
             if(i-std::get<1>(x) < 4){
-                consensus_structure[i] = '_';
-                consensus_structure[std::get<1>(x)] = '_';
+                consensus_structure[i] = '.';
+                consensus_structure[std::get<1>(x)] = '.';
                 continue;  
             }
         }
@@ -192,134 +191,5 @@ if((x == 'A' && y == 'T') || (x == 'T' && y == 'A')) {return true;}
 else if((x == 'C' && y == 'G') || (x == 'G' && y == 'C')) {return true;}
 else if((x == 'A' && y == 'U') || (x == 'G' && y == 'U') || (x == 'U' && y == 'G') || (x == 'U' && y == 'A')) {return true;}
 else{return false;}
-
-}
-bool call_simfold2 (char *programPath, char *input_sequence, char *output_structure, double *output_energy) {
-        
-
-	char config_file[200] = SIMFOLD_HOME "/params/multirnafold.conf";
-
-	double temperature;
-	temperature = 37;
-	init_data ("./simfold", config_file, RNA, temperature);
-
-    fill_data_structures_with_new_parameters (SIMFOLD_HOME "/params/turner_parameters_fm363_constrdangles.txt");
-	// when I fill the structures with DP09 parameters, I get a segmentation fault for 108 base sequence!!!!
-	// So I chopped the parameter set to only hold the exact number as the turner_parameters_fm363_constrdangles.txt,
-	// but still getting seg fault!
-	fill_data_structures_with_new_parameters (SIMFOLD_HOME "/params/parameters_DP09_chopped.txt");
-
-	*output_energy = simfold (input_sequence, output_structure);
-	//*output_energy = simfold_restricted (input_sequence, output_structure);
-//	printf ("Call_Simfold_RES( can be called by different methods): %s  %.2lf\n", output_structure, output_energy);
-	return true;
-}
-bool call_simfold3 (char *programPath, char *input_sequence, char *output_structure, double *output_energy, double *scores ,int n) {
-        
-
-	char config_file[200] = SIMFOLD_HOME "/params/multirnafold.conf";
-
-	double temperature;
-	temperature = 37;
-	init_data ("./simfold", config_file, RNA, temperature);
-
-    fill_data_structures_with_new_parameters (SIMFOLD_HOME "/params/turner_parameters_fm363_constrdangles.txt");
-	// when I fill the structures with DP09 parameters, I get a segmentation fault for 108 base sequence!!!!
-	// So I chopped the parameter set to only hold the exact number as the turner_parameters_fm363_constrdangles.txt,
-	// but still getting seg fault!
-	fill_data_structures_with_new_parameters (SIMFOLD_HOME "/params/parameters_DP09_chopped.txt");
-
-	*output_energy = simfold_new (input_sequence, output_structure,scores,n);
-	//*output_energy = simfold_restricted (input_sequence, output_structure);
-//	printf ("Call_Simfold_RES( can be called by different methods): %s  %.2lf\n", output_structure, output_energy);
-	return true;
-}
-
-std::string iterativeFold(std::string seq, std::string str, double &en){
-
-    int length = seq.length();
-    int lengthp1 = length+1;
-    char sequence[length+1];
-    char structure[length+1];
-    strcpy(sequence, seq.c_str());
-    strcpy(structure, str.c_str());
-
-    if(!validateSequence(sequence)){
-		fprintf(stderr,"-s sequence is invalid. sequence: %s\n",sequence);
-		exit(1);
-	}
-
-	if(!validateStructure(structure, sequence)){
-		fprintf(stderr, "-r is invalid\n");
-		exit(1);
-	}
-
-
-    char *method1_structure = (char*) malloc(sizeof(char) * lengthp1);
-    char *method2_structure = (char*) malloc(sizeof(char) * lengthp1);
-    char *method3_structure = (char*) malloc(sizeof(char) * lengthp1);
-    char *method4_structure = (char*) malloc(sizeof(char) * lengthp1);
-    char final_structure[lengthp1];
-
-    double *method1_energy = (double*) malloc(sizeof(double));
-    double *method2_energy = (double*) malloc(sizeof(double));
-    double *method3_energy = (double*) malloc(sizeof(double));
-    double *method4_energy = (double*) malloc(sizeof(double));
-    double final_energy = INF;
-    int method_chosen = -1;
-
-    *method1_energy = INF;
-    *method2_energy = INF;
-    *method3_energy = INF;
-    *method4_energy = INF;
-
-    *method1_energy = method1(sequence, structure, method1_structure);
-    *method2_energy = method2(sequence, structure, method2_structure);    
-    *method3_energy = method3(sequence, structure, method3_structure);
-    *method4_energy = method4(sequence, structure, method4_structure);
-
-    //We ignore non-negetive energy, only if the energy of the input sequnces are non-positive!
-    if (*method1_energy < final_energy) {
-        //if (*method1_energy < final_energy && *method1_energy != 0) {
-        final_energy = *method1_energy;
-        strcpy(final_structure, method1_structure);
-        method_chosen = 1;
-    }
-
-    if (*method2_energy < final_energy) {
-        //if (*method2_energy < final_energy && *method2_energy != 0) {
-        final_energy = *method2_energy;
-        strcpy(final_structure, method2_structure);
-        method_chosen = 2;
-    }
-
-    if (*method3_energy < final_energy) {
-        //if (*method3_energy < final_energy && *method3_energy != 0) {
-        final_energy = *method3_energy;
-        strcpy(final_structure, method3_structure);
-        method_chosen = 3;
-    }
-
-    if (*method4_energy < final_energy) {
-        //if (*method4_energy < final_energy && *method4_energy != 0) {
-        final_energy = *method4_energy;
-        strcpy(final_structure, method4_structure);
-        method_chosen = 4;
-    } 
-
-    en = final_energy;
-
-    if (final_energy == INF || method_chosen == -1) {
-        fprintf(stderr, "ERROR: could not find energy\n");
-        fprintf(stderr, "SEQ: %s\n",sequence);
-        fprintf(stderr, "Structure: %s\n",structure);
-    }
-    //cout << sequence << endl << final_structure << endl << final_energy;
-    free(method1_energy); free(method1_structure);
-    free(method2_energy); free(method2_structure);
-    free(method3_energy); free(method3_structure);
-    free(method4_energy); free(method4_structure);
-    return final_structure;
-    
 
 }

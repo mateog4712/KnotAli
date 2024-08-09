@@ -115,6 +115,11 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
     
 ##### References:
     Robert C. Edgar. MUSCLE: a multiple sequence alignment method with reduced time and space complexity. BMC Bioinformatics, 5:113, Aug 2004
+
+
+#### Changes
+    08/02/2024 KnotAli has been updated to use the new version of Iterative-HFold. As such, it should be much faster to run compared to before. The change includes a change to the Vienna RNA
+    format from the simfold formate to improve interoperability
     
 
 
