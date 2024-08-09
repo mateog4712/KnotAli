@@ -54,13 +54,15 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
   -v, --verbose          Turn on verbose
   -i, --input-type       Specify input file type (CLUSTAL, FASTA, or Stockholm, base is FASTA)
   -o, --output-file      Specify output file
-  -p, --pseudoknot       Turns off pseudoknot prediction
+  -d  --dangles          Specify the dangle model to be used (base is 2)
+  -P, --paramFile        Read energy parameters from paramfile, instead of using the default parameter set.
 ```
 
 #### Example:
     assume you are in the KnotAli directory
     ./build/src/KnotAli myinputfile.txt
     ./build/src/KnotAli -o outputfile.txt myinputfile.afa
+    ./build/src/KnotAli -p "src/params/parameters_DP09_Vienna.txt" -d1 example/align_ex1.fa
     
     
     Let's go through an example from the example folder: align_ex1.fa. The first three sequences from this file are:
