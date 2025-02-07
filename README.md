@@ -58,11 +58,14 @@ Read input file from cmdline; predict minimum free energy and optimum structure 
   -P, --paramFile        Read energy parameters from paramfile, instead of using the default parameter set.
 ```
 
+Remarks:
+    The default parameter file is DP09. This can be changed via -P and specifying the parameter file you would like
+
 #### Example:
     assume you are in the KnotAli directory
     ./build/src/KnotAli myinputfile.txt
     ./build/src/KnotAli -o outputfile.txt myinputfile.afa
-    ./build/src/KnotAli -p "src/params/parameters_DP09_Vienna.txt" -d1 example/align_ex1.fa
+    ./build/src/KnotAli -p "params/rna_Turner04.par" -d1 example/align_ex1.fa
     
     
     Let's go through an example from the example folder: align_ex1.fa. The first three sequences from this file are:

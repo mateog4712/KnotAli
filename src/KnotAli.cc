@@ -200,9 +200,8 @@ int main(int argc, char *argv[]) {
     std::string output_file_k;
     args_info.output_file_given ? output_file_k = output_file : output_file_k = "results.afa";
 
-    std::string file= "";
-	args_info.paramFile_given ? file = parameter_file : file = "";
-	if(file!=""){
+    std::string file= args_info.paramFile_given ? parameter_file : "params/rna_Turner2004.par";
+	if(exists(file)){
 		vrna_params_load(file.c_str(), VRNA_PARAMETER_FORMAT_DEFAULT);
 	}
 
