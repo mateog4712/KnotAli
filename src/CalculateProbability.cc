@@ -109,7 +109,7 @@ ProbabilityState calculateProbability(uint *dataVector, int vectorLength) {
 
 
 
-/////////////////////////// FREE FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+// FREE FUNCTIONS
 
 void freeProbabilityState(ProbabilityState state) {
     free(state.probabilityVector);

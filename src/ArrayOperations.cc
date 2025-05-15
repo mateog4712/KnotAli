@@ -5,7 +5,7 @@
 
 
 int maxState(uint *vector, int vectorLength) {
-    int max = 0;
+    uint max = 0;
     for (int i = 0; i < vectorLength; i++) {
         if (vector[i] > max) {
             max = vector[i];

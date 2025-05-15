@@ -14,7 +14,8 @@
 
 // Checks to see if pair is pseudoknotted
 bool check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const Hotspot& hotspot){
-  for(int j = 0; j<used.size();++j){
+  cand_pos_t n = used.size();
+  for(cand_pos_t j = 0; j<n;++j){
       if((std::get<0>(hotspot.pair) < std::get<0>(used[j])  && std::get<1>(hotspot.pair) >  std::get<0>(used[j]) && std::get<1>(hotspot.pair) <  std::get<1>(used[j])) || (std::get<0>(hotspot.pair) < std::get<1>(used[j])  && std::get<1>(hotspot.pair) >  std::get<1>(used[j]) && std::get<0>(hotspot.pair) >  std::get<0>(used[j]))) return true;
   }
   return false;
@@ -116,7 +117,8 @@ std::string MIVector(std::vector<std::string> &seqs){
   std::vector<std::tuple<int,int> > used;
 
   // Go through each hotspot pair and change the structure accordingly
-  for(int i = 0; i<hotspots.size();++i){
+  cand_pos_t n_hot = hotspots.size();
+  for(cand_pos_t i = 0; i<n_hot;++i){
     // If pair wont work due to previous pair
     if(structure[std::get<0>(hotspots[i].pair)] != '.' || structure[std::get<1>(hotspots[i].pair)] != '.') continue;
 
@@ -131,7 +133,7 @@ std::string MIVector(std::vector<std::string> &seqs){
     }
   }
   int infoLoss=0;
-  for(int i = 0; i<n; ++i){
+  for(cand_pos_t i = 0; i<n; ++i){
     if(structure[i] == '.' && column_max[i] < mean){
       structure[i] = 'x';
       infoLoss++;
