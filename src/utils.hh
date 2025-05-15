@@ -1,5 +1,6 @@
 #ifndef UTILS
 #define UTILS
+#include "base_types.hh"
 #include <vector>
 #include <string>
 

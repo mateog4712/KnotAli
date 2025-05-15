@@ -1,3 +1,4 @@
+#include "base_types.hh"
 #include "mutual_information.hh"
 #include "utils.hh"
 #include "Iterative-HFold.hh"
@@ -25,7 +26,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
 
         std::ifstream in(input_file.c_str());
         std::string str;
-        int i = -1;
+        cand_pos_t i = -1;
         bool newSeq = false;
         while (std::getline(in, str)) {
 
@@ -39,7 +40,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
                 std::string str2 = str;
-                for(int j=str2.length()-1;j>=0;--j){
+                cand_pos_t n = str2.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
                 }
                 seqs2.push_back(str2);
@@ -50,7 +52,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
             else{
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 std::string str2 = str;
-                for(int j=str2.length()-1;j>=0;--j){
+                cand_pos_t n = str2.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str2[j] == '-') str2.erase(j,1);
                 }
                 std::string temp = seqs2[i] + str2;
@@ -65,7 +68,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
         
         std::ifstream in(input_file.c_str());
         std::string str;
-        int i = 0;
+        cand_pos_t i = 0;
 
         bool first = true;
         std::getline(in, str);
@@ -90,7 +93,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs.push_back(str);
-                for(int j=str.length()-1;j>=0;--j){
+                cand_pos_t n = str.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
                 }
                 seqs2.push_back(str);
@@ -102,7 +106,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs[i] = seqs[i] + str;
-                for(int j=str.length()-1;j>=0;--j){
+                cand_pos_t n = str.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
                 }
                 seqs2[i] = seqs2[i] + str;
@@ -114,7 +119,7 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
     else if(type == "STOCKHOLM"){
         std::ifstream in(input_file.c_str());
         std::string str;
-        int i = 0;
+        cand_pos_t i = 0;
         bool first = true;
         std::getline(in,str);
         getline(in,str);
@@ -137,7 +142,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs.push_back(str);
-                for(int j=str.length()-1;j>=0;--j){
+                cand_pos_t n = str.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
                 }
                 seqs2.push_back(str);
@@ -149,7 +155,8 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
                 ss >> str;
                 std::transform(str.begin(), str.end(), str.begin(), ::toupper);
                 seqs[i] = seqs[i] + str;
-                for(int j=str.length()-1;j>=0;--j){
+                cand_pos_t n = str.length();
+                for(cand_pos_t j=n-1;j>=0;--j){
                     if(str[j] == '-') str.erase(j,1);
                 }
                 seqs2[i] = seqs2[i] + str;
@@ -162,9 +169,11 @@ void updateVectors(std::vector<std::string> & seqs, std::vector<std::string> &se
         std::cout << "Please give valid input type" << std::endl;
         exit (EXIT_FAILURE);
     }
-    int length = seqs[0].length();
-    for(int i=0;i<seqs.size();++i){
-        if (seqs[i].length() != length){
+    cand_pos_t n = seqs[0].length();
+    cand_pos_t n_seq = seqs.size();
+    for(cand_pos_t i=0;i< n_seq;++i){
+        cand_pos_t n1 = seqs[i].length();
+        if (n1 != n){
             std::cout << "All sequences must be the same length in the alignment" << std::endl;
             exit(0);
         }

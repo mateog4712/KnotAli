@@ -36,8 +36,8 @@ bool exists (const std::string& name) {
 /** This functions takes a string and two chars. If char1 appears, it is replaced with char2**/
 char* replaceChar(char *stri, char ch1, char ch2) {
     std::string seq(stri);
-    // cout << seq.length() << endl;
-    for (int i = 0; i < seq.length(); ++i) {
+    cand_pos_t n = seq.length();
+    for (int i = 0; i < n; ++i) {
         if (seq[i] == ch1)
             seq[i] = ch2;
     }

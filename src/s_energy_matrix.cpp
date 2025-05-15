@@ -252,7 +252,6 @@ energy_t s_energy_matrix::E_MbLoop(const energy_t WM2ij, const energy_t WM2ip1j,
 void s_energy_matrix::compute_WMv_WMp(cand_pos_t i, cand_pos_t j, energy_t WMB, std::vector<Node> &tree){
 	if(j-i+1<4) return;
 	cand_pos_t ij = index[(i)]+(j)-(i);
-	cand_pos_t iplus1j = index[(i)+1]+(j)-(i)-1;
 	cand_pos_t ijminus1 = index[(i)]+(j)-1-(i);
 
 	WMv[ij] = E_MLStem(get_energy(i,j),get_energy(i+1,j),get_energy(i,j-1),get_energy(i+1,j-1),S_,params_,i,j,n,tree);
@@ -287,8 +286,8 @@ void s_energy_matrix::compute_energy_WM_restricted (cand_pos_t i, cand_pos_t j, 
 		m4 =  std::min(m4,get_energy_WM(i,k-1) + wmb_kj);
 
 	}
-	WM[ij] = std::min({m1,m2,m3,m4});
-	if (tree.tree[j].pair <= -1) WM[ij] = std::min(WM[ij],WM[ijminus1] + params_->MLbase);
+	m5 = std::min(m5,WM[ijminus1] + params_->MLbase);
+	WM[ij] = std::min({m1,m2,m3,m4,m5});
     
 }
 
@@ -386,7 +385,6 @@ void s_energy_matrix::compute_energy_restricted (cand_pos_t i, cand_pos_t j, spa
     min_en[2] = INF;
 
 
-	const pair_type ptype_closing = pair[S_[i]][S_[j]];
     const bool unpaired = (tree.tree[i].pair<-1 && tree.tree[j].pair<-1);
 	const bool paired = (tree.tree[i].pair == j && tree.tree[j].pair == i);
     if (paired || unpaired)    // if i and j can pair

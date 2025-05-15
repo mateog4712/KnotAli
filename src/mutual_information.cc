@@ -13,7 +13,7 @@
 #include <fstream>
 
 // Checks to see if pair is pseudoknotted
-bool const check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const Hotspot& hotspot){
+bool check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const Hotspot& hotspot){
   for(int j = 0; j<used.size();++j){
       if((std::get<0>(hotspot.pair) < std::get<0>(used[j])  && std::get<1>(hotspot.pair) >  std::get<0>(used[j]) && std::get<1>(hotspot.pair) <  std::get<1>(used[j])) || (std::get<0>(hotspot.pair) < std::get<1>(used[j])  && std::get<1>(hotspot.pair) >  std::get<1>(used[j]) && std::get<0>(hotspot.pair) >  std::get<0>(used[j]))) return true;
   }
@@ -22,7 +22,7 @@ bool const check_Pseudoknot(std::vector<std::tuple<int,int> > const& used, const
 }
 
 // Calculates the APC value for finding MIp
-double const APC(double const& col_i, double const& col_j, double const& mean){
+double APC(double const& col_i, double const& col_j, double const& mean){
 
 return (col_i*col_j)/mean;
 
