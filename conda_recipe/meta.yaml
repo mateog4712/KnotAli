@@ -1,0 +1,55 @@
+package:
+  name: knotali
+  version: "1.0.1"
+
+source:
+  path: ..
+  # git_url: https://github.com/HosnaJabbari/KnotAli.git
+  # git_rev: (latest tag)
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make
+    - cmake >=3.1
+  host:
+    - libstdcxx-ng    # [linux]
+    - libcxx          # [osx]
+  run:
+    - libstdcxx-ng    # [linux]
+    - libcxx          # [osx]
+
+about:
+  home: https://github.com/HosnaJabbari/KnotAli
+  summary: "RNA secondary structure prediction with pseudoknots using relaxed Hierarchical Folding."
+  description: |
+    KnotAli is a computational tool for predicting RNA secondary structures, 
+    including pseudoknotted configurations, using a relaxed Hierarchical Folding 
+    approach. It is designed to analyze RNA alignments in FASTA and CLUSTAL formats 
+    and predict optimal secondary structures using a Minimum Free Energy (MFE) model.
+
+    The software is implemented in C++ and requires a C++11-compatible compiler, 
+    Pthreads, and CMake (≥3.1) for installation. It is compatible with Linux and macOS, 
+    offering a command-line interface for flexible and efficient RNA structure predictions.
+
+    ### Features:
+    - Predicts RNA secondary structures, including pseudoknots.
+    - Supports multiple sequence alignment input in FASTA and CLUSTAL formats.
+    - Uses an MFE-based algorithm for structure optimization.
+    - Allows user-defined input constraints for improved accuracy.
+
+    For installation, usage instructions, and additional details, visit:
+    https://github.com/HosnaJabbari/KnotAli
+  dev_url: https://github.com/HosnaJabbari/KnotAli
+
+extra:
+  recipe-maintainers:
+    - PointlessUser
+
+test:
+  commands:
+    - KnotAli --help
